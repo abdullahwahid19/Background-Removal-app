@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "16214301745",
+    "project_id": "car-extractor",
+    "storage_bucket": "car-extractor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16214301745:android:b4c96cb890d7e39d39c910",
+        "android_client_info": {
+          "package_name": "com.mycompany.carcutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16214301745-emhue8fcs7ilq74dco29ec7godqh7pg7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.carcutter",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "16214301745-rrllv476r5utsisfgu4fu5huv547ujon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwH1mk8_c_gStRDJwEYrdo_vrFmhxXd3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16214301745-r5s9c0pbv1po6rvd06p5nmt6r91e1icc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "16214301745-v8rhk4vnejpamvj1r86f7lk0576m38sh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.carcutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
