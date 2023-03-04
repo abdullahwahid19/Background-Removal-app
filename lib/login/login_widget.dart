@@ -59,11 +59,19 @@ class _LoginWidgetState extends State<LoginWidget> {
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Image.asset(
-                      'assets/images/logoTranslation@3x.png',
-                      width: 40.0,
-                      height: 40.0,
-                      fit: BoxFit.cover,
+                    FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left_rounded,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 30.0,
+                      ),
+                      onPressed: () {
+                        print('IconButton pressed ...');
+                      },
                     ),
                   ],
                 ),
