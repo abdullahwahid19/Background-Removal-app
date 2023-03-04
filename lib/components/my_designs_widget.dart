@@ -1,3 +1,6 @@
+import '/auth/auth_util.dart';
+import '/backend/backend.dart';
+import '/components/no_designs_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -59,65 +62,63 @@ class _MyDesignsWidgetState extends State<MyDesignsWidget> {
           ),
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/892/600',
-                        width: 500.0,
-                        height: 300.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/892/600',
-                        width: 500.0,
-                        height: 300.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/892/600',
-                        width: 500.0,
-                        height: 300.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/892/600',
-                        width: 500.0,
-                        height: 300.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
+            child: StreamBuilder<List<UsersRecord>>(
+              stream: queryUsersRecord(
+                queryBuilder: (usersRecord) =>
+                    usersRecord.where('uid', isEqualTo: currentUserUid),
+                singleRecord: true,
               ),
+              builder: (context, snapshot) {
+                // Customize what your widget looks like when it's loading.
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: SizedBox(
+                      width: 50.0,
+                      height: 50.0,
+                      child: CircularProgressIndicator(
+                        color: FlutterFlowTheme.of(context).primaryColor,
+                      ),
+                    ),
+                  );
+                }
+                List<UsersRecord> rowUsersRecordList = snapshot.data!;
+                if (rowUsersRecordList.isEmpty) {
+                  return NoDesignsWidget();
+                }
+                final rowUsersRecord = rowUsersRecordList.isNotEmpty
+                    ? rowUsersRecordList.first
+                    : null;
+                return Builder(
+                  builder: (context) {
+                    final designs = rowUsersRecord!.myDesigns!.toList();
+                    if (designs.isEmpty) {
+                      return NoDesignsWidget();
+                    }
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: List.generate(designs.length, (designsIndex) {
+                          final designsItem = designs[designsIndex];
+                          return Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16.0),
+                              child: Image.network(
+                                designsItem.image!,
+                                width: 500.0,
+                                height: 300.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
