@@ -176,7 +176,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0x00000000),
+                            color: FlutterFlowTheme.of(context).primaryColor,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(12.0),
@@ -240,7 +240,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0x00000000),
+                            color: FlutterFlowTheme.of(context).primaryColor,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(12.0),
@@ -304,7 +304,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0x00000000),
+                            color: FlutterFlowTheme.of(context).primaryColor,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(12.0),
@@ -368,7 +368,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0x00000000),
+                            color: FlutterFlowTheme.of(context).primaryColor,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(12.0),
@@ -445,7 +445,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0x00000000),
+                            color: FlutterFlowTheme.of(context).primaryColor,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(12.0),
@@ -562,7 +562,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
                     child: FlutterFlowIconButton(
-                      borderColor: Colors.transparent,
+                      borderColor:
+                          FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: 30.0,
                       borderWidth: 1.0,
                       buttonSize: 50.0,
@@ -585,7 +586,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
                     child: FlutterFlowIconButton(
-                      borderColor: Colors.transparent,
+                      borderColor:
+                          FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: 30.0,
                       borderWidth: 1.0,
                       buttonSize: 50.0,
