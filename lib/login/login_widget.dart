@@ -151,7 +151,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 6.0,
@@ -160,6 +159,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                         )
                       ],
                       borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(
+                        width: 1.0,
+                      ),
                     ),
                     child: Padding(
                       padding:
@@ -173,7 +175,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                           hintStyle: FlutterFlowTheme.of(context).bodyText2,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0x00000000),
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(12.0),
@@ -200,8 +203,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 24.0, 20.0, 24.0),
                         ),
@@ -218,7 +219,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 6.0,
@@ -240,7 +240,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                           hintStyle: FlutterFlowTheme.of(context).bodyText2,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0x00000000),
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(12.0),
@@ -267,8 +268,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 24.0, 20.0, 24.0),
                           suffixIcon: InkWell(
@@ -384,8 +383,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                               borderRadius: 30.0,
                               borderWidth: 1.0,
                               buttonSize: 50.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
                               icon: FaIcon(
                                 FontAwesomeIcons.google,
                                 color: FlutterFlowTheme.of(context).primaryText,
@@ -410,10 +407,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                               borderRadius: 30.0,
                               borderWidth: 1.0,
                               buttonSize: 50.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
                               icon: FaIcon(
-                                FontAwesomeIcons.apple,
+                                FontAwesomeIcons.facebook,
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 size: 24.0,
                               ),
