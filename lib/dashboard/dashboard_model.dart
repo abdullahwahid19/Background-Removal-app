@@ -1,6 +1,8 @@
 import '/auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
+import '/backend/firebase_storage/storage.dart';
+import '/components/footer_widget.dart';
 import '/components/my_designs_widget.dart';
 import '/components/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -22,20 +24,25 @@ class DashboardModel extends FlutterFlowModel {
   bool isMediaUploading = false;
   FFUploadedFile uploadedLocalFile =
       FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl = '';
 
   // Stores action output result for [Backend Call - API (Background Removal)] action in Button widget.
   ApiCallResponse? apiResultgr3;
+  // Model for Footer component.
+  late FooterModel footerModel;
 
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
     navbarModel = createModel(context, () => NavbarModel());
     myDesignsModel = createModel(context, () => MyDesignsModel());
+    footerModel = createModel(context, () => FooterModel());
   }
 
   void dispose() {
     navbarModel.dispose();
     myDesignsModel.dispose();
+    footerModel.dispose();
   }
 
   /// Additional helper methods are added here.

@@ -1,6 +1,8 @@
 import '/auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
+import '/backend/firebase_storage/storage.dart';
+import '/components/footer_widget.dart';
 import '/components/my_designs_widget.dart';
 import '/components/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -73,7 +75,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         final selectedMedia =
@@ -86,7 +88,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                 validateFileFormat(m.storagePath, context))) {
                           setState(() => _model.isMediaUploading = true);
                           var selectedUploadedFiles = <FFUploadedFile>[];
-
+                          var downloadUrls = <String>[];
                           try {
                             showUploadMessage(
                               context,
@@ -101,15 +103,27 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                       width: m.dimensions?.width,
                                     ))
                                 .toList();
+
+                            downloadUrls = (await Future.wait(
+                              selectedMedia.map(
+                                (m) async =>
+                                    await uploadData(m.storagePath, m.bytes),
+                              ),
+                            ))
+                                .where((u) => u != null)
+                                .map((u) => u!)
+                                .toList();
                           } finally {
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             _model.isMediaUploading = false;
                           }
                           if (selectedUploadedFiles.length ==
-                              selectedMedia.length) {
+                                  selectedMedia.length &&
+                              downloadUrls.length == selectedMedia.length) {
                             setState(() {
                               _model.uploadedLocalFile =
                                   selectedUploadedFiles.first;
+                              _model.uploadedFileUrl = downloadUrls.first;
                             });
                             showUploadMessage(context, 'Success!');
                           } else {
@@ -195,11 +209,115 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       ),
                     ),
                   ),
-                  Image.network(
-                    FFAppState().apiResult,
-                    width: 1000.0,
-                    height: 1000.0,
-                    fit: BoxFit.cover,
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 32.0, 0.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Orignal Image',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 16.0, 0.0, 0.0),
+                                child: Image.network(
+                                  _model.uploadedFileUrl != null &&
+                                          _model.uploadedFileUrl != ''
+                                      ? _model.uploadedFileUrl
+                                      : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                  width: 500.0,
+                                  height: 350.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              32.0, 0.0, 0.0, 0.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Edited Image',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 16.0, 0.0, 0.0),
+                                child: Image.network(
+                                  FFAppState().apiResult != null &&
+                                          FFAppState().apiResult != ''
+                                      ? FFAppState().apiResult
+                                      : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                  width: 500.0,
+                                  height: 350.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
+                    child: FFButtonWidget(
+                      onPressed: () {
+                        print('Button pressed ...');
+                      },
+                      text: 'Download Image',
+                      options: FFButtonOptions(
+                        width: 200.0,
+                        height: 70.0,
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primaryColor,
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white,
+                                ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  wrapWithModel(
+                    model: _model.footerModel,
+                    updateCallback: () => setState(() {}),
+                    child: FooterWidget(),
                   ),
                 ],
               ),
