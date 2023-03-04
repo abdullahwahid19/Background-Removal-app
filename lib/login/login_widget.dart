@@ -372,38 +372,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            GoRouter.of(context).prepareAuthEvent();
-                            final user = await signInAnonymously(context);
-                            if (user == null) {
-                              return;
-                            }
-
-                            context.goNamedAuth('Dashboard', mounted);
-                          },
-                          text: 'Continue as Guest',
-                          options: FFButtonOptions(
-                            width: 230.0,
-                            height: 50.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            textStyle: FlutterFlowTheme.of(context).subtitle2,
-                            elevation: 0.0,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                      ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
