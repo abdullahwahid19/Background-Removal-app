@@ -9,6 +9,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_media.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,8 @@ class DashboardModel extends FlutterFlowModel {
 
   // Stores action output result for [Backend Call - API (Background Removal)] action in Button widget.
   ApiCallResponse? apiResultgr3;
+  // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
+  String? designImageURL;
   // Model for Footer component.
   late FooterModel footerModel;
 
