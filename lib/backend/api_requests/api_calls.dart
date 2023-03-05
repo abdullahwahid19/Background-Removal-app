@@ -10,10 +10,12 @@ export 'api_manager.dart' show ApiCallResponse;
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
 class BackgroundRemovalCall {
-  static Future<ApiCallResponse> call() {
+  static Future<ApiCallResponse> call({
+    String? image = '',
+  }) {
     final body = '''
 {
-  "image_url": "https://www.remove.bg/example.jpg",
+  "image_url": "${image}",
   "size": "auto"
 }''';
     return ApiManager.instance.makeApiCall(

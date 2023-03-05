@@ -9,6 +9,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_media.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -134,9 +135,11 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                           }
                         }
 
-                        _model.apiResultgr3 =
-                            await BackgroundRemovalCall.call();
+                        _model.apiResultgr3 = await BackgroundRemovalCall.call(
+                          image: _model.uploadedFileUrl,
+                        );
                         if ((_model.apiResultgr3?.succeeded ?? true)) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -146,21 +149,52 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              duration: Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 500),
+                              backgroundColor: Color(0x00000000),
+                            ),
+                          );
+                          _model.designImageURL = await actions.api2Firebase(
+                            (_model.apiResultgr3?.jsonBody ?? ''),
+                            currentUserUid,
+                          );
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Step 1',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 5000),
                               backgroundColor: Color(0x00000000),
                             ),
                           );
                           setState(() {
-                            FFAppState().apiResult =
-                                (_model.apiResultgr3?.jsonBody ?? '');
+                            FFAppState().apiResult = _model.designImageURL!;
                           });
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Step 2',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor: Color(0x00000000),
+                            ),
+                          );
 
                           final usersUpdateData = {
                             'myDesigns': FieldValue.arrayUnion([
                               getOldEditsFirestoreData(
                                 createOldEditsStruct(
                                   date: getCurrentTimestamp,
-                                  image: (_model.apiResultgr3?.jsonBody ?? ''),
+                                  image: _model.designImageURL,
                                   clearUnsetFields: false,
                                 ),
                                 true,
@@ -168,6 +202,20 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             ]),
                           };
                           await currentUserReference!.update(usersUpdateData);
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Step 3',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor: Color(0x00000000),
+                            ),
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
