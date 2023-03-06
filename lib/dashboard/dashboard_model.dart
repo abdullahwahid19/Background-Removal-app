@@ -1,5 +1,4 @@
 import '/auth/auth_util.dart';
-import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/components/footer_widget.dart';
@@ -27,10 +26,8 @@ class DashboardModel extends FlutterFlowModel {
       FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl = '';
 
-  // Stores action output result for [Backend Call - API (Background Removal)] action in Button widget.
-  ApiCallResponse? apiResultgr3;
   // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
-  String? designImageURL;
+  String? apiImage;
   // Model for Footer component.
   late FooterModel footerModel;
 

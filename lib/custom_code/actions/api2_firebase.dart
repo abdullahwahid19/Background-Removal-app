@@ -7,18 +7,44 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:http/http.dart' as http;
 
-Future<String> api2Firebase(
-  dynamic apiImage,
-  String? userID,
-) async {
+Future<String> api2Firebase(String uploadedImage) async {
   // Add your function code here!
-  final Reference storageReference = FirebaseStorage.instance
-      .ref()
-      .child('users/${userID}/designs/${DateTime.now()}.jpg');
-  final UploadTask uploadTask = storageReference.putData(apiImage);
-  final TaskSnapshot downloadUrl = (await uploadTask);
-  final String url = (await downloadUrl.ref.getDownloadURL());
-  return url;
+  final apiKey = 'sbdzupuL44p8PU4TyeZoY9br';
+  final url = Uri.parse('https://api.remove.bg/v1.0/removebg');
+  final response = await http.post(
+    url,
+    headers: {'X-Api-Key': apiKey},
+    body: {'image_url': uploadedImage},
+  );
+
+  if (response.statusCode == 200) {
+    final bytes = response.bodyBytes;
+    final fileName = 'my_image.png';
+
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      // User is not authenticated, handle this error
+      return "";
+    }
+
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('users')
+        .child(currentUser.uid)
+        .child(fileName);
+
+    final uploadTask = storageRef.putData(bytes);
+    final snapshot = await uploadTask.whenComplete(() {});
+    final downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+
+    // Use the downloadUrl to display the image or save it to a database
+  } else {
+    print('Error ${response.statusCode}: ${response.reasonPhrase}');
+    return "";
+  }
 }
