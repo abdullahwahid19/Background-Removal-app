@@ -1,6 +1,6 @@
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/no_designs_widget.dart';
+import '/components/no_designs/no_designs_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class _MyDesignsWidgetState extends State<MyDesignsWidget> {
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
             child: Text(
-              'My Designs',
+              'History',
               style: FlutterFlowTheme.of(context).bodyText1.override(
                     fontFamily: 'Montserrat',
                     fontSize: 18.0,
@@ -62,12 +62,8 @@ class _MyDesignsWidgetState extends State<MyDesignsWidget> {
           ),
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
-            child: StreamBuilder<List<UsersRecord>>(
-              stream: queryUsersRecord(
-                queryBuilder: (usersRecord) =>
-                    usersRecord.where('uid', isEqualTo: currentUserUid),
-                singleRecord: true,
-              ),
+            child: StreamBuilder<UsersRecord>(
+              stream: UsersRecord.getDocument(currentUserReference!),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.
                 if (!snapshot.hasData) {
@@ -81,16 +77,10 @@ class _MyDesignsWidgetState extends State<MyDesignsWidget> {
                     ),
                   );
                 }
-                List<UsersRecord> rowUsersRecordList = snapshot.data!;
-                if (rowUsersRecordList.isEmpty) {
-                  return NoDesignsWidget();
-                }
-                final rowUsersRecord = rowUsersRecordList.isNotEmpty
-                    ? rowUsersRecordList.first
-                    : null;
+                final rowUsersRecord = snapshot.data!;
                 return Builder(
                   builder: (context) {
-                    final designs = rowUsersRecord!.myDesigns!.toList();
+                    final designs = rowUsersRecord.myDesigns!.toList();
                     if (designs.isEmpty) {
                       return NoDesignsWidget();
                     }

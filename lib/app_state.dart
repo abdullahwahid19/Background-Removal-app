@@ -35,6 +35,12 @@ class FFAppState extends ChangeNotifier {
   set apiResultStr(String _value) {
     _apiResultStr = _value;
   }
+
+  String _nullStr = '';
+  String get nullStr => _nullStr;
+  set nullStr(String _value) {
+    _nullStr = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

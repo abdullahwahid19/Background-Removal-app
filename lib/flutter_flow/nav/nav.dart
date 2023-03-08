@@ -96,6 +96,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Signup',
               path: 'signup',
               builder: (context, params) => SignupWidget(),
+            ),
+            FFRoute(
+              name: 'ImageEditor',
+              path: 'imageEditor',
+              builder: (context, params) => ImageEditorWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),
