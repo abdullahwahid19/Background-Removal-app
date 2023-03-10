@@ -96,10 +96,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Signup',
               path: 'signup',
               builder: (context, params) => SignupWidget(),
+            ),
+            FFRoute(
+              name: 'ImageEditor',
+              path: 'imageEditor',
+              builder: (context, params) => ImageEditorWidget(
+                ogImg: params.getParam('ogImg', ParamType.String),
+                resImg: params.getParam('resImg', ParamType.String),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
-        ).toRoute(appStateNotifier),
-      ],
+        ),
+      ].map((r) => r.toRoute(appStateNotifier)).toList(),
       urlPathStrategy: UrlPathStrategy.path,
     );
 
@@ -145,6 +153,16 @@ extension NavigationExtensions on BuildContext {
               queryParams: queryParams,
               extra: extra,
             );
+
+  void safePop() {
+    // If there is only one route on the stack, navigate to the initial
+    // page instead of popping.
+    if (GoRouter.of(this).routerDelegate.matches.length <= 1) {
+      go('/');
+    } else {
+      pop();
+    }
+  }
 }
 
 extension GoRouterExtensions on GoRouter {
