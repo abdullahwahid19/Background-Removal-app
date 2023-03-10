@@ -685,6 +685,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                           _model.testImg = await actions.watermarkImg(
                             'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2F6fjPnw8fA0.png?alt=media&token=a29a68fd-dcaf-4a4f-bdab-9e9510433198',
                             'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
+                            'Top Right',
                           );
 
                           setState(() {});
