@@ -211,6 +211,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                             decoration: BoxDecoration(),
                             child: FlutterFlowRadioButton(
                               options: ['Color', 'Image', 'None'].toList(),
+                              initialValue: 'None',
                               onChanged: (val) =>
                                   setState(() => _model.radioButtonValue = val),
                               optionHeight: 50.0,
@@ -687,6 +688,9 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                             'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
                             'Top Right',
                           );
+                          setState(() {
+                            FFAppState().testImg = _model.testImg!;
+                          });
 
                           setState(() {});
                         },
@@ -714,9 +718,9 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                       ),
                     ),
                     Image.network(
-                      _model.testImg != null && _model.testImg != ''
-                          ? _model.testImg!
-                          : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png',
+                      FFAppState().testImg != null && FFAppState().testImg != ''
+                          ? FFAppState().testImg
+                          : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png',
                       width: 100.0,
                       height: 100.0,
                       fit: BoxFit.cover,
