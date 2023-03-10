@@ -12,10 +12,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> api2Firebase(
-    String uploadedImage, String? selectedColor, String? selectedBg) async {
+Future<String> api2Firebase(String uploadedImage, String? selectedColor,
+    String? selectedBg, String randFileName) async {
   // Add your function code here!
-  final apiKey = 'sbdzupuL44p8PU4TyeZoY9br';
+  final apiKey = 'dd78DWGUQY3MA6xVg8czSiyH';
   final url = Uri.parse('https://api.remove.bg/v1.0/removebg');
   final response = await http.post(
     url,
@@ -29,7 +29,8 @@ Future<String> api2Firebase(
 
   if (response.statusCode == 200) {
     final bytes = response.bodyBytes;
-    final fileName = 'my_image.png';
+
+    final fileName = randFileName + '.png';
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
