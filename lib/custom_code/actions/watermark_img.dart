@@ -18,8 +18,8 @@ Future<String> watermarkImg(
   String img,
   String logo,
 ) async {
-  Uint8List bytesImg = Uint8List(0);
-  Uint8List bytesLogo = Uint8List(0);
+  var bytesImg;
+  var bytesLogo;
   try {
     var bytesImg = await FirebaseStorage.instance.ref(img).getData()!;
   } on FirebaseException catch (e) {

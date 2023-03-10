@@ -37,6 +37,8 @@ class ImageProcessorModel extends FlutterFlowModel {
   String? apiImageColor;
   // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
   String? apiImageBg;
+  // Stores action output result for [Custom Action - watermarkImg] action in Button widget.
+  String? testImg;
 
   /// Initialization and disposal methods.
 
