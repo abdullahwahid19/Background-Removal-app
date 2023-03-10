@@ -454,6 +454,20 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                               backgroundColor: Color(0x00000000),
                             ),
                           );
+
+                          context.pushNamed(
+                            'ImageEditor',
+                            queryParams: {
+                              'ogImg': serializeParam(
+                                _model.uploadedFileUrl1,
+                                ParamType.String,
+                              ),
+                              'resImg': serializeParam(
+                                FFAppState().apiResult,
+                                ParamType.String,
+                              ),
+                            }.withoutNulls,
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -509,6 +523,20 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                                 backgroundColor: Color(0x00000000),
                               ),
                             );
+
+                            context.pushNamed(
+                              'ImageEditor',
+                              queryParams: {
+                                'ogImg': serializeParam(
+                                  _model.uploadedFileUrl1,
+                                  ParamType.String,
+                                ),
+                                'resImg': serializeParam(
+                                  _model.apiImageColor,
+                                  ParamType.String,
+                                ),
+                              }.withoutNulls,
+                            );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -562,6 +590,20 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                                 duration: Duration(milliseconds: 4000),
                                 backgroundColor: Color(0x00000000),
                               ),
+                            );
+
+                            context.pushNamed(
+                              'ImageEditor',
+                              queryParams: {
+                                'ogImg': serializeParam(
+                                  _model.uploadedFileUrl1,
+                                  ParamType.String,
+                                ),
+                                'resImg': serializeParam(
+                                  _model.apiImageBg,
+                                  ParamType.String,
+                                ),
+                              }.withoutNulls,
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

@@ -1,4 +1,3 @@
-import '/auth/auth_util.dart';
 import '/components/footer/footer_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -6,13 +5,21 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'image_editor_model.dart';
 export 'image_editor_model.dart';
 
 class ImageEditorWidget extends StatefulWidget {
-  const ImageEditorWidget({Key? key}) : super(key: key);
+  const ImageEditorWidget({
+    Key? key,
+    this.ogImg,
+    this.resImg,
+  }) : super(key: key);
+
+  final String? ogImg;
+  final String? resImg;
 
   @override
   _ImageEditorWidgetState createState() => _ImageEditorWidgetState();
@@ -28,6 +35,14 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ImageEditorModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.wImg = await actions.watermarkImg(
+        widget.resImg!,
+        'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
+      );
+    });
   }
 
   @override
@@ -103,16 +118,13 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 16.0, 0.0, 0.0),
-                                    child: AuthUserStreamWidget(
-                                      builder: (context) => Image.network(
-                                        currentUserPhoto != null &&
-                                                currentUserPhoto != ''
-                                            ? currentUserPhoto
-                                            : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                        width: 500.0,
-                                        height: 350.0,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    child: Image.network(
+                                      widget.ogImg != null && widget.ogImg != ''
+                                          ? widget.ogImg!
+                                          : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                      width: 500.0,
+                                      height: 350.0,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ],
@@ -125,27 +137,59 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Edited Image',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Edited Image',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 0.0, 0.0),
+                                        child: Text(
+                                          '(Click anywhere on the image to move logo)',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
+                                      ),
+                                    ],
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 16.0, 0.0, 0.0),
-                                    child: Image.network(
-                                      FFAppState().apiResult != null &&
-                                              FFAppState().apiResult != ''
-                                          ? FFAppState().apiResult
-                                          : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                      width: 500.0,
-                                      height: 350.0,
-                                      fit: BoxFit.cover,
+                                    child: MouseRegion(
+                                      opaque: false,
+                                      cursor: SystemMouseCursors.precise ??
+                                          MouseCursor.defer,
+                                      child: Image.network(
+                                        _model.wImg != null && _model.wImg != ''
+                                            ? _model.wImg!
+                                            : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                        width: 500.0,
+                                        height: 350.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      onEnter: ((event) async {
+                                        setState(() =>
+                                            _model.mouseRegionHovered = true);
+                                      }),
+                                      onExit: ((event) async {
+                                        setState(() =>
+                                            _model.mouseRegionHovered = false);
+                                      }),
                                     ),
                                   ),
                                 ],
