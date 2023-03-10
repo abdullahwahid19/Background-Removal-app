@@ -715,7 +715,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                     Image.network(
                       _model.testImg != null && _model.testImg != ''
                           ? _model.testImg!
-                          : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorstock.com%2Froyalty-free-vectors%2Fno-picture-vectors&psig=AOvVaw2mSBP_Er311XD0JWdZyREm&ust=1678521555984000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCLDMi5ry0P0CFQAAAAAdAAAAABAG',
+                          : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png',
                       width: 100.0,
                       height: 100.0,
                       fit: BoxFit.cover,
