@@ -237,6 +237,18 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
                                               ),
                                             ),
                                           ),
+                                          Text(
+                                            'Done',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryColor,
+                                                  fontSize: 16.0,
+                                                ),
+                                          ),
                                         ],
                                       ),
                                     ),

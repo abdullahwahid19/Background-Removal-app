@@ -41,6 +41,12 @@ class FFAppState extends ChangeNotifier {
   set nullStr(String _value) {
     _nullStr = _value;
   }
+
+  String _testImg = '';
+  String get testImg => _testImg;
+  set testImg(String _value) {
+    _testImg = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

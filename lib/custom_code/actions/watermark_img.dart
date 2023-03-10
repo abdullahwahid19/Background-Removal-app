@@ -36,8 +36,8 @@ Future<String> watermarkImg(String img, String logo, String pos) async {
 
   try {
     // bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
-    bytesImg = await getImageBytes(
-        "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png");
+    bytesLogo = await getImageBytes(
+        "https://th.bing.com/th/id/R.8dd6be8c6ab596e1603b5c75bf56386c?rik=6c4G1Gam%2fbs6JQ&pid=ImgRaw&r=0");
   } on FirebaseException catch (e) {
     print('Error loading image from Firebase Storage: $e');
   } on IOException catch (e) {
