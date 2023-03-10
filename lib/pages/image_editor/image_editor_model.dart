@@ -1,5 +1,6 @@
 import '/components/footer/footer_widget.dart';
 import '/components/navbar/navbar_widget.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -16,8 +17,8 @@ class ImageEditorModel extends FlutterFlowModel {
   String? wImg;
   // Model for Navbar component.
   late NavbarModel navbarModel;
-  // State field(s) for MouseRegion widget.
-  bool mouseRegionHovered = false;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
   // Model for Footer component.
   late FooterModel footerModel;
 

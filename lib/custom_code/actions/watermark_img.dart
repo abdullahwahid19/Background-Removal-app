@@ -13,15 +13,21 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 
-Future<String> watermarkImg(
-  String img,
-  String logo,
-) async {
+Future<String> watermarkImg(String img, String logo, String pos) async {
   var bytesImg;
   var bytesLogo;
+  var positions = {
+    "Top Right": [0, 0],
+    "Top Left": [100, 0],
+    "Bottom Right": [0, 100],
+    "Bottom Left": [100, 100]
+  };
   try {
-    var bytesImg = await FirebaseStorage.instance.ref(img).getData()!;
+    // bytesImg = await FirebaseStorage.instance.ref(img).getData()!;
+    bytesImg = await getImageBytes(
+        "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg");
   } on FirebaseException catch (e) {
     print('Error loading image from Firebase Storage: $e');
   } on IOException catch (e) {
@@ -29,7 +35,9 @@ Future<String> watermarkImg(
   }
 
   try {
-    var bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
+    // bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
+    bytesImg = await getImageBytes(
+        "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png");
   } on FirebaseException catch (e) {
     print('Error loading image from Firebase Storage: $e');
   } on IOException catch (e) {
@@ -42,8 +50,8 @@ Future<String> watermarkImg(
         waterkmarkImageBytes: bytesLogo,
         imgHeight: 200,
         imgWidth: 200,
-        dstY: 0,
-        dstX: 0);
+        dstY: (positions[pos])![0],
+        dstX: (positions[pos])![1]);
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
@@ -64,4 +72,14 @@ Future<String> watermarkImg(
   }
 
   return "https://upload.wikimedia.org/wikipedia/commons/b/bb/Gorgosaurus_BW_transparent.png";
+}
+
+Future<Uint8List> getImageBytes(String imageUrl) async {
+  final response = await http.get(Uri.parse(imageUrl));
+  if (response.statusCode == 200) {
+    return response.bodyBytes;
+  } else {
+    throw Exception(
+        'Failed to load image: $imageUrl, status code: ${response.statusCode}');
+  }
 }
