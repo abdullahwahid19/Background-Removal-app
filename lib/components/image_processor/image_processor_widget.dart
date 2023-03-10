@@ -414,261 +414,313 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
-                  child: FFButtonWidget(
-                    onPressed: () async {
-                      if (_model.radioButtonValue == 'None') {
-                        _model.apiImage = await actions.api2Firebase(
-                          _model.uploadedFileUrl1,
-                          FFAppState().nullStr,
-                          FFAppState().nullStr,
-                          random_data.randomString(
-                            10,
-                            10,
-                            true,
-                            true,
-                            true,
-                          ),
-                        );
-                        if (_model.apiImage != null && _model.apiImage != '') {
-                          setState(() {
-                            FFAppState().apiResult = _model.apiImage!;
-                          });
-
-                          final usersUpdateData1 = {
-                            'myDesigns': FieldValue.arrayUnion([
-                              getOldEditsFirestoreData(
-                                createOldEditsStruct(
-                                  date: getCurrentTimestamp,
-                                  image: _model.apiImage,
-                                  clearUnsetFields: false,
-                                ),
-                                true,
-                              )
-                            ]),
-                          };
-                          await currentUserReference!.update(usersUpdateData1);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'PASS',
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Color(0x00000000),
-                            ),
-                          );
-
-                          context.pushNamed(
-                            'ImageEditor',
-                            queryParams: {
-                              'ogImg': serializeParam(
-                                _model.uploadedFileUrl1,
-                                ParamType.String,
-                              ),
-                              'resImg': serializeParam(
-                                FFAppState().apiResult,
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'FAIL',
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Color(0x00000000),
-                            ),
-                          );
-                        }
-                      } else {
-                        if (_model.radioButtonValue == 'Color') {
-                          _model.apiImageColor = await actions.api2Firebase(
-                            _model.uploadedFileUrl1,
-                            functions.color2String(_model.colorPicked!),
-                            FFAppState().nullStr,
-                            random_data.randomString(
-                              10,
-                              10,
-                              true,
-                              true,
-                              true,
-                            ),
-                          );
-                          if (_model.apiImageColor != null &&
-                              _model.apiImageColor != '') {
-                            setState(() {
-                              FFAppState().apiResult = _model.apiImageColor!;
-                            });
-
-                            final usersUpdateData2 = {
-                              'myDesigns': FieldValue.arrayUnion([
-                                getOldEditsFirestoreData(
-                                  createOldEditsStruct(
-                                    date: getCurrentTimestamp,
-                                    image: _model.apiImageColor,
-                                    clearUnsetFields: false,
-                                  ),
-                                  true,
-                                )
-                              ]),
-                            };
-                            await currentUserReference!
-                                .update(usersUpdateData2);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'PASS',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor: Color(0x00000000),
-                              ),
-                            );
-
-                            context.pushNamed(
-                              'ImageEditor',
-                              queryParams: {
-                                'ogImg': serializeParam(
-                                  _model.uploadedFileUrl1,
-                                  ParamType.String,
-                                ),
-                                'resImg': serializeParam(
-                                  _model.apiImageColor,
-                                  ParamType.String,
-                                ),
-                              }.withoutNulls,
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'FAIL',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor: Color(0x00000000),
-                              ),
-                            );
-                          }
-                        } else {
-                          _model.apiImageBg = await actions.api2Firebase(
-                            _model.uploadedFileUrl1,
-                            FFAppState().nullStr,
-                            _model.uploadedFileUrl2,
-                            random_data.randomString(
-                              10,
-                              10,
-                              true,
-                              true,
-                              true,
-                            ),
-                          );
-                          if (_model.apiImageBg != null &&
-                              _model.apiImageBg != '') {
-                            setState(() {
-                              FFAppState().apiResult = _model.apiImageBg!;
-                            });
-
-                            final usersUpdateData3 = {
-                              'myDesigns': FieldValue.arrayUnion([
-                                getOldEditsFirestoreData(
-                                  createOldEditsStruct(
-                                    date: getCurrentTimestamp,
-                                    image: _model.apiImageBg,
-                                    clearUnsetFields: false,
-                                  ),
-                                  true,
-                                )
-                              ]),
-                            };
-                            await currentUserReference!
-                                .update(usersUpdateData3);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'PASS',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor: Color(0x00000000),
-                              ),
-                            );
-
-                            context.pushNamed(
-                              'ImageEditor',
-                              queryParams: {
-                                'ogImg': serializeParam(
-                                  _model.uploadedFileUrl1,
-                                  ParamType.String,
-                                ),
-                                'resImg': serializeParam(
-                                  _model.apiImageBg,
-                                  ParamType.String,
-                                ),
-                              }.withoutNulls,
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'FAIL',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor: Color(0x00000000),
-                              ),
-                            );
-                          }
-                        }
-                      }
-
-                      setState(() {});
-                    },
-                    text: 'Process Image',
-                    options: FFButtonOptions(
-                      width: 300.0,
-                      height: 80.0,
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: FlutterFlowTheme.of(context).primaryColor,
-                      textStyle:
-                          FlutterFlowTheme.of(context).subtitle2.override(
-                                fontFamily: 'Montserrat',
-                                color: Colors.white,
-                                fontSize: 24.0,
+                          EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          if (_model.radioButtonValue == 'None') {
+                            _model.apiImage = await actions.api2Firebase(
+                              _model.uploadedFileUrl1,
+                              FFAppState().nullStr,
+                              FFAppState().nullStr,
+                              random_data.randomString(
+                                10,
+                                10,
+                                true,
+                                true,
+                                true,
                               ),
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1.0,
+                            );
+                            if (_model.apiImage != null &&
+                                _model.apiImage != '') {
+                              setState(() {
+                                FFAppState().apiResult = _model.apiImage!;
+                              });
+
+                              final usersUpdateData1 = {
+                                'myDesigns': FieldValue.arrayUnion([
+                                  getOldEditsFirestoreData(
+                                    createOldEditsStruct(
+                                      date: getCurrentTimestamp,
+                                      image: _model.apiImage,
+                                      clearUnsetFields: false,
+                                    ),
+                                    true,
+                                  )
+                                ]),
+                              };
+                              await currentUserReference!
+                                  .update(usersUpdateData1);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'PASS',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor: Color(0x00000000),
+                                ),
+                              );
+
+                              context.pushNamed(
+                                'ImageEditor',
+                                queryParams: {
+                                  'ogImg': serializeParam(
+                                    _model.uploadedFileUrl1,
+                                    ParamType.String,
+                                  ),
+                                  'resImg': serializeParam(
+                                    FFAppState().apiResult,
+                                    ParamType.String,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'FAIL',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor: Color(0x00000000),
+                                ),
+                              );
+                            }
+                          } else {
+                            if (_model.radioButtonValue == 'Color') {
+                              _model.apiImageColor = await actions.api2Firebase(
+                                _model.uploadedFileUrl1,
+                                functions.color2String(_model.colorPicked!),
+                                FFAppState().nullStr,
+                                random_data.randomString(
+                                  10,
+                                  10,
+                                  true,
+                                  true,
+                                  true,
+                                ),
+                              );
+                              if (_model.apiImageColor != null &&
+                                  _model.apiImageColor != '') {
+                                setState(() {
+                                  FFAppState().apiResult =
+                                      _model.apiImageColor!;
+                                });
+
+                                final usersUpdateData2 = {
+                                  'myDesigns': FieldValue.arrayUnion([
+                                    getOldEditsFirestoreData(
+                                      createOldEditsStruct(
+                                        date: getCurrentTimestamp,
+                                        image: _model.apiImageColor,
+                                        clearUnsetFields: false,
+                                      ),
+                                      true,
+                                    )
+                                  ]),
+                                };
+                                await currentUserReference!
+                                    .update(usersUpdateData2);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'PASS',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor: Color(0x00000000),
+                                  ),
+                                );
+
+                                context.pushNamed(
+                                  'ImageEditor',
+                                  queryParams: {
+                                    'ogImg': serializeParam(
+                                      _model.uploadedFileUrl1,
+                                      ParamType.String,
+                                    ),
+                                    'resImg': serializeParam(
+                                      _model.apiImageColor,
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'FAIL',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor: Color(0x00000000),
+                                  ),
+                                );
+                              }
+                            } else {
+                              _model.apiImageBg = await actions.api2Firebase(
+                                _model.uploadedFileUrl1,
+                                FFAppState().nullStr,
+                                _model.uploadedFileUrl2,
+                                random_data.randomString(
+                                  10,
+                                  10,
+                                  true,
+                                  true,
+                                  true,
+                                ),
+                              );
+                              if (_model.apiImageBg != null &&
+                                  _model.apiImageBg != '') {
+                                setState(() {
+                                  FFAppState().apiResult = _model.apiImageBg!;
+                                });
+
+                                final usersUpdateData3 = {
+                                  'myDesigns': FieldValue.arrayUnion([
+                                    getOldEditsFirestoreData(
+                                      createOldEditsStruct(
+                                        date: getCurrentTimestamp,
+                                        image: _model.apiImageBg,
+                                        clearUnsetFields: false,
+                                      ),
+                                      true,
+                                    )
+                                  ]),
+                                };
+                                await currentUserReference!
+                                    .update(usersUpdateData3);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'PASS',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor: Color(0x00000000),
+                                  ),
+                                );
+
+                                context.pushNamed(
+                                  'ImageEditor',
+                                  queryParams: {
+                                    'ogImg': serializeParam(
+                                      _model.uploadedFileUrl1,
+                                      ParamType.String,
+                                    ),
+                                    'resImg': serializeParam(
+                                      _model.apiImageBg,
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'FAIL',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor: Color(0x00000000),
+                                  ),
+                                );
+                              }
+                            }
+                          }
+
+                          setState(() {});
+                        },
+                        text: 'Process Image',
+                        options: FFButtonOptions(
+                          width: 300.0,
+                          height: 80.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                          textStyle:
+                              FlutterFlowTheme.of(context).subtitle2.override(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontSize: 24.0,
+                                  ),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          _model.testImg = await actions.watermarkImg(
+                            'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2F6fjPnw8fA0.png?alt=media&token=a29a68fd-dcaf-4a4f-bdab-9e9510433198',
+                            'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
+                          );
+
+                          setState(() {});
+                        },
+                        text: 'Test ',
+                        options: FFButtonOptions(
+                          width: 100.0,
+                          height: 30.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                          textStyle:
+                              FlutterFlowTheme.of(context).subtitle2.override(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    fontSize: 12.0,
+                                  ),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    Image.network(
+                      _model.testImg != null && _model.testImg != ''
+                          ? _model.testImg!
+                          : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorstock.com%2Froyalty-free-vectors%2Fno-picture-vectors&psig=AOvVaw2mSBP_Er311XD0JWdZyREm&ust=1678521555984000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCLDMi5ry0P0CFQAAAAAdAAAAABAG',
+                      width: 100.0,
+                      height: 100.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
                 ),
               ],
             ),
