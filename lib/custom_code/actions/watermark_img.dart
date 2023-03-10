@@ -20,25 +20,16 @@ Future<String> watermarkImg(
 ) async {
   Uint8List bytesImg = Uint8List(0);
   Uint8List bytesLogo = Uint8List(0);
-  final FirebaseStorage storage = FirebaseStorage.instance;
-  final Reference ref = storage.ref().child(img);
   try {
-    final File tempFile = File('image.jpg');
-    await ref.writeToFile(tempFile);
-    bytesImg = await tempFile.readAsBytes();
-    await tempFile.delete();
+    var bytesImg = await FirebaseStorage.instance.ref(img).getData()!;
   } on FirebaseException catch (e) {
     print('Error loading image from Firebase Storage: $e');
   } on IOException catch (e) {
     print('Error loading image from Firebase Storage: $e');
   }
 
-  final Reference refLogo = storage.ref().child(logo);
   try {
-    final File tempFile = File('image.jpg');
-    await refLogo.writeToFile(tempFile);
-    bytesLogo = await tempFile.readAsBytes();
-    await tempFile.delete();
+    var bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
   } on FirebaseException catch (e) {
     print('Error loading image from Firebase Storage: $e');
   } on IOException catch (e) {
