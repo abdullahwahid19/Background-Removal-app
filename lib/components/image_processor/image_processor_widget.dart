@@ -680,53 +680,6 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          _model.testImg = await actions.watermarkImg(
-                            'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2F6fjPnw8fA0.png?alt=media&token=a29a68fd-dcaf-4a4f-bdab-9e9510433198',
-                            'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
-                            'Top Right',
-                          );
-                          setState(() {
-                            FFAppState().testImg = _model.testImg!;
-                          });
-
-                          setState(() {});
-                        },
-                        text: 'Test ',
-                        options: FFButtonOptions(
-                          width: 100.0,
-                          height: 30.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.white,
-                                    fontSize: 12.0,
-                                  ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                    Image.network(
-                      FFAppState().testImg != null && FFAppState().testImg != ''
-                          ? FFAppState().testImg
-                          : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png',
-                      width: 100.0,
-                      height: 100.0,
-                      fit: BoxFit.cover,
-                    ),
                   ],
                 ),
               ],

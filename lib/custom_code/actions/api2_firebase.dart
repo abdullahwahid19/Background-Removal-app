@@ -25,6 +25,17 @@ Future<Uint8List> getImageBytes(String imageUrl) async {
   }
 }
 
+Future<Uint8List> addWatermark(Uint8List img, Uint8List logo) async {
+  return await ImageWatermark.addImageWatermark(
+      //image bytes
+      originalImageBytes: img,
+      waterkmarkImageBytes: logo,
+      imgHeight: 200,
+      imgWidth: 200,
+      dstY: 0,
+      dstX: 0);
+}
+
 Future<String> api2Firebase(String uploadedImage, String? selectedColor,
     String? selectedBg, String randFileName) async {
   // Add your function code here!
@@ -56,14 +67,7 @@ Future<String> api2Firebase(String uploadedImage, String? selectedColor,
       return ('');
     }
     if ((bytes != Uint8List(0)) && (bytesLogo != Uint8List(0))) {
-      newImg = await ImageWatermark.addImageWatermark(
-          //image bytes
-          originalImageBytes: bytes,
-          waterkmarkImageBytes: bytesLogo,
-          imgHeight: 200,
-          imgWidth: 200,
-          dstY: 0,
-          dstX: 0);
+      newImg = addWatermark(bytes, bytesLogo);
     }
 
     final fileName = randFileName + '.png';
