@@ -37,6 +37,8 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ImageProcessorModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

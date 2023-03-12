@@ -8,9 +8,22 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_watermark/image_watermark.dart';
+
+Future<Uint8List> getImageBytes(String imageUrl) async {
+  final response = await http.get(Uri.parse(imageUrl));
+  if (response.statusCode == 200) {
+    return response.bodyBytes;
+  } else {
+    throw Exception(
+        'Failed to load image: $imageUrl, status code: ${response.statusCode}');
+  }
+}
 
 Future<String> api2Firebase(String uploadedImage, String? selectedColor,
     String? selectedBg, String randFileName) async {
@@ -30,6 +43,29 @@ Future<String> api2Firebase(String uploadedImage, String? selectedColor,
   if (response.statusCode == 200) {
     final bytes = response.bodyBytes;
 
+    //Add logo
+    var bytesLogo;
+    var newImg;
+    try {
+      // bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
+      bytesLogo = await getImageBytes(
+          "https://th.bing.com/th/id/R.8dd6be8c6ab596e1603b5c75bf56386c?rik=6c4G1Gam%2fbs6JQ&pid=ImgRaw&r=0");
+    } on FirebaseException catch (e) {
+      return ('');
+    } on IOException catch (e) {
+      return ('');
+    }
+    if ((bytes != Uint8List(0)) && (bytesLogo != Uint8List(0))) {
+      newImg = await ImageWatermark.addImageWatermark(
+          //image bytes
+          originalImageBytes: bytes,
+          waterkmarkImageBytes: bytesLogo,
+          imgHeight: 200,
+          imgWidth: 200,
+          dstY: 0,
+          dstX: 0);
+    }
+
     final fileName = randFileName + '.png';
 
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -44,7 +80,7 @@ Future<String> api2Firebase(String uploadedImage, String? selectedColor,
         .child(currentUser.uid)
         .child(fileName);
 
-    final uploadTask = storageRef.putData(bytes);
+    final uploadTask = storageRef.putData(newImg);
     final snapshot = await uploadTask.whenComplete(() {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;

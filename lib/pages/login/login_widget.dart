@@ -29,6 +29,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     _model.emailTextController ??= TextEditingController();
     _model.passwordTextController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

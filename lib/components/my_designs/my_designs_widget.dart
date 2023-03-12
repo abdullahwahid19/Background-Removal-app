@@ -29,6 +29,8 @@ class _MyDesignsWidgetState extends State<MyDesignsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MyDesignsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
