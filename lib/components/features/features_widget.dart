@@ -26,6 +26,8 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => FeaturesModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

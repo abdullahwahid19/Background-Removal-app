@@ -33,6 +33,7 @@ class _SignupWidgetState extends State<SignupWidget> {
     _model.emailTextController ??= TextEditingController();
     _model.passwordTextController ??= TextEditingController();
     _model.confirmPasswordTextController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

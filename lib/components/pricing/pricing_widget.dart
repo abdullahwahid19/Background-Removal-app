@@ -27,6 +27,8 @@ class _PricingWidgetState extends State<PricingWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => PricingModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

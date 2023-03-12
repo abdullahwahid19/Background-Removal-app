@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'image_editor_model.dart';
@@ -37,14 +36,7 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
     super.initState();
     _model = createModel(context, () => ImageEditorModel());
 
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.wImg = await actions.watermarkImg(
-        widget.resImg!,
-        'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
-        'Top Right',
-      );
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -118,8 +110,9 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 16.0, 0.0, 0.0),
                                       child: Image.network(
-                                        _model.wImg != null && _model.wImg != ''
-                                            ? _model.wImg!
+                                        widget.resImg != null &&
+                                                widget.resImg != ''
+                                            ? widget.resImg!
                                             : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                         width: 1100.0,
                                         height: 700.0,

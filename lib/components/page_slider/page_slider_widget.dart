@@ -28,6 +28,8 @@ class _PageSliderWidgetState extends State<PageSliderWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => PageSliderModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

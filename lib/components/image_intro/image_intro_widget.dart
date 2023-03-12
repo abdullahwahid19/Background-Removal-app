@@ -26,6 +26,8 @@ class _ImageIntroWidgetState extends State<ImageIntroWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ImageIntroModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
