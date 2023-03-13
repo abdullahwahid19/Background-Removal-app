@@ -15,7 +15,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
-Future<String> watermarkImg(dynamic img, dynamic logo, String pos) async {
+Future<List<String>> watermarkImg(
+    dynamic img, dynamic logo, String pos, String name) async {
   var positions = {
     "Top Right": [0, 0],
     "Top Left": [100, 0],
@@ -36,20 +37,37 @@ Future<String> watermarkImg(dynamic img, dynamic logo, String pos) async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
       // User is not authenticated, handle this error
-      return "https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium";
+      return [
+        "https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
+      ];
     }
+
+    var nameog = name + '.jpg';
+    var nameedit = name + 'edit.jpg';
 
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('users')
         .child(currentUser.uid)
-        .child("watermarked.jpg");
+        .child(nameog);
 
-    final uploadTask = storageRef.putData(newImg);
+    final uploadTask = storageRef.putData(img);
     final snapshot = await uploadTask.whenComplete(() {});
-    final downloadUrl = await snapshot.ref.getDownloadURL();
-    return downloadUrl;
+    final orignalUrl = await snapshot.ref.getDownloadURL();
+
+    final storageRef2 = FirebaseStorage.instance
+        .ref()
+        .child('users')
+        .child(currentUser.uid)
+        .child(nameedit);
+
+    final uploadTask2 = storageRef2.putData(newImg);
+    final snapshot2 = await uploadTask2.whenComplete(() {});
+    final downloadUrl = await snapshot2.ref.getDownloadURL();
+    return [orignalUrl, downloadUrl];
   }
 
-  return "https://upload.wikimedia.org/wikipedia/commons/b/bb/Gorgosaurus_BW_transparent.png";
+  return [
+    "https://upload.wikimedia.org/wikipedia/commons/b/bb/Gorgosaurus_BW_transparent.png"
+  ];
 }

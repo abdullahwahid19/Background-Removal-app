@@ -3,6 +3,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_media.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -340,7 +342,14 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           32.0, 0.0, 0.0, 0.0),
                                       child: FlutterFlowDropDown<String>(
-                                        options: ['Option 1'],
+                                        initialOption: _model.dropDownValue ??=
+                                            'Top Left',
+                                        options: [
+                                          'Top Left',
+                                          'Top Right',
+                                          'Bottom Left',
+                                          'Bottom Right'
+                                        ],
                                         onChanged: (val) => setState(
                                             () => _model.dropDownValue = val),
                                         width: 200.0,
@@ -382,8 +391,19 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(
                           16.0, 32.0, 16.0, 32.0),
                       child: FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
+                        onPressed: () async {
+                          await actions.watermarkImg(
+                            FFAppState().nullJson,
+                            FFAppState().nullJson,
+                            _model.dropDownValue!,
+                            random_data.randomString(
+                              10,
+                              10,
+                              true,
+                              true,
+                              true,
+                            ),
+                          );
                         },
                         text: 'Add Logo',
                         options: FFButtonOptions(

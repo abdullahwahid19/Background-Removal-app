@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/lat_lng.dart';
+import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static final FFAppState _instance = FFAppState._internal();
@@ -46,6 +47,12 @@ class FFAppState extends ChangeNotifier {
   String get testImg => _testImg;
   set testImg(String _value) {
     _testImg = _value;
+  }
+
+  dynamic _nullJson;
+  dynamic get nullJson => _nullJson;
+  set nullJson(dynamic _value) {
+    _nullJson = _value;
   }
 }
 
