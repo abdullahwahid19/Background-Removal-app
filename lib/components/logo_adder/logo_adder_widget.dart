@@ -1,3 +1,5 @@
+import '/auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -5,6 +7,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_media.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/random_data_util.dart' as random_data;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -392,7 +395,7 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                           16.0, 32.0, 16.0, 32.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          await actions.watermarkImg(
+                          _model.waterOut = await actions.watermarkImg(
                             FFAppState().nullJson,
                             FFAppState().nullJson,
                             _model.dropDownValue!,
@@ -404,6 +407,36 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                               true,
                             ),
                           );
+
+                          final usersUpdateData = {
+                            'myDesigns': FieldValue.arrayUnion([
+                              getOldEditsFirestoreData(
+                                createOldEditsStruct(
+                                  date: getCurrentTimestamp,
+                                  image: _model.waterOut?.last,
+                                  clearUnsetFields: false,
+                                ),
+                                true,
+                              )
+                            ]),
+                          };
+                          await currentUserReference!.update(usersUpdateData);
+
+                          context.pushNamed(
+                            'LogoAdd',
+                            queryParams: {
+                              'ogImg': serializeParam(
+                                _model.waterOut?.first,
+                                ParamType.String,
+                              ),
+                              'resImg': serializeParam(
+                                _model.waterOut?.last,
+                                ParamType.String,
+                              ),
+                            }.withoutNulls,
+                          );
+
+                          setState(() {});
                         },
                         text: 'Add Logo',
                         options: FFButtonOptions(

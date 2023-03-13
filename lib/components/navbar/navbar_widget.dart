@@ -1,4 +1,5 @@
 import '/auth/auth_util.dart';
+import '/auth/firebase_user_provider.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -71,42 +72,46 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                         ),
                   ),
                 ),
-                Text(
-                  'Home',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                Text(
-                  'Product',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                Text(
-                  'Pricing',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                Text(
-                  'Contact',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
+                if (!loggedIn)
+                  Text(
+                    'Home',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                if (!loggedIn)
+                  Text(
+                    'Product',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                if (!loggedIn)
+                  Text(
+                    'Pricing',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                if (!loggedIn)
+                  Text(
+                    'Contact',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
               ],
             ),
           ),
-          if (currentUserUid != null && currentUserUid != '')
+          if (loggedIn)
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -198,7 +203,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                 ),
               ],
             ),
-          if (currentUserUid == null || currentUserUid == '')
+          if (!loggedIn)
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,

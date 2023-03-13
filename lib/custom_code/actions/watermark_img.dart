@@ -19,9 +19,9 @@ Future<List<String>> watermarkImg(
     dynamic img, dynamic logo, String pos, String name) async {
   var positions = {
     "Top Right": [0, 0],
-    "Top Left": [100, 0],
-    "Bottom Right": [0, 100],
-    "Bottom Left": [100, 100]
+    "Top Left": [-200, 0],
+    "Bottom Right": [0, -200],
+    "Bottom Left": [-200, -200]
   };
 
   if ((img != Uint8List(0)) && (logo != Uint8List(0))) {
