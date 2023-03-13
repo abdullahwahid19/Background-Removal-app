@@ -14,18 +14,19 @@ import 'package:flutter/material.dart';
 import 'package:flutterflow_colorpicker/flutterflow_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'image_processor_model.dart';
-export 'image_processor_model.dart';
+import 'background_remover_model.dart';
+export 'background_remover_model.dart';
 
-class ImageProcessorWidget extends StatefulWidget {
-  const ImageProcessorWidget({Key? key}) : super(key: key);
+class BackgroundRemoverWidget extends StatefulWidget {
+  const BackgroundRemoverWidget({Key? key}) : super(key: key);
 
   @override
-  _ImageProcessorWidgetState createState() => _ImageProcessorWidgetState();
+  _BackgroundRemoverWidgetState createState() =>
+      _BackgroundRemoverWidgetState();
 }
 
-class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
-  late ImageProcessorModel _model;
+class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
+  late BackgroundRemoverModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -36,7 +37,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ImageProcessorModel());
+    _model = createModel(context, () => BackgroundRemoverModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -61,7 +62,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
             child: Text(
-              'Image Editor',
+              'Background Remover',
               style: FlutterFlowTheme.of(context).bodyText1.override(
                     fontFamily: 'Montserrat',
                     fontSize: 18.0,
@@ -473,7 +474,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                               );
 
                               context.pushNamed(
-                                'ImageEditor',
+                                'BgRemove',
                                 queryParams: {
                                   'ogImg': serializeParam(
                                     _model.uploadedFileUrl1,
@@ -550,7 +551,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                                 );
 
                                 context.pushNamed(
-                                  'ImageEditor',
+                                  'BgRemove',
                                   queryParams: {
                                     'ogImg': serializeParam(
                                       _model.uploadedFileUrl1,
@@ -625,7 +626,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
                                 );
 
                                 context.pushNamed(
-                                  'ImageEditor',
+                                  'BgRemove',
                                   queryParams: {
                                     'ogImg': serializeParam(
                                       _model.uploadedFileUrl1,
@@ -657,7 +658,7 @@ class _ImageProcessorWidgetState extends State<ImageProcessorWidget> {
 
                           setState(() {});
                         },
-                        text: 'Process Image',
+                        text: 'Remove Background',
                         options: FFButtonOptions(
                           width: 300.0,
                           height: 80.0,

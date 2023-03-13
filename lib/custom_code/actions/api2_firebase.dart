@@ -54,22 +54,6 @@ Future<String> api2Firebase(String uploadedImage, String? selectedColor,
   if (response.statusCode == 200) {
     final bytes = response.bodyBytes;
 
-    //Add logo
-    var bytesLogo;
-    var newImg;
-    try {
-      // bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
-      bytesLogo = await getImageBytes(
-          "https://th.bing.com/th/id/R.8dd6be8c6ab596e1603b5c75bf56386c?rik=6c4G1Gam%2fbs6JQ&pid=ImgRaw&r=0");
-    } on FirebaseException catch (e) {
-      return ('');
-    } on IOException catch (e) {
-      return ('');
-    }
-    if ((bytes != Uint8List(0)) && (bytesLogo != Uint8List(0))) {
-      newImg = addWatermark(bytes, bytesLogo);
-    }
-
     final fileName = randFileName + '.png';
 
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -84,7 +68,7 @@ Future<String> api2Firebase(String uploadedImage, String? selectedColor,
         .child(currentUser.uid)
         .child(fileName);
 
-    final uploadTask = storageRef.putData(newImg);
+    final uploadTask = storageRef.putData(bytes);
     final snapshot = await uploadTask.whenComplete(() {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;

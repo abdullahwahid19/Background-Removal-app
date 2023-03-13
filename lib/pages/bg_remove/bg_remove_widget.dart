@@ -1,6 +1,5 @@
 import '/components/footer/footer_widget.dart';
 import '/components/navbar/navbar_widget.dart';
-import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -8,11 +7,11 @@ import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'image_editor_model.dart';
-export 'image_editor_model.dart';
+import 'bg_remove_model.dart';
+export 'bg_remove_model.dart';
 
-class ImageEditorWidget extends StatefulWidget {
-  const ImageEditorWidget({
+class BgRemoveWidget extends StatefulWidget {
+  const BgRemoveWidget({
     Key? key,
     this.ogImg,
     this.resImg,
@@ -22,11 +21,11 @@ class ImageEditorWidget extends StatefulWidget {
   final String? resImg;
 
   @override
-  _ImageEditorWidgetState createState() => _ImageEditorWidgetState();
+  _BgRemoveWidgetState createState() => _BgRemoveWidgetState();
 }
 
-class _ImageEditorWidgetState extends State<ImageEditorWidget> {
-  late ImageEditorModel _model;
+class _BgRemoveWidgetState extends State<BgRemoveWidget> {
+  late BgRemoveModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
@@ -34,7 +33,7 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ImageEditorModel());
+    _model = createModel(context, () => BgRemoveModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -127,68 +126,6 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                'Logo Position',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1,
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        16.0, 0.0, 0.0, 0.0),
-                                                child:
-                                                    FlutterFlowDropDown<String>(
-                                                  initialOption:
-                                                      _model.dropDownValue ??=
-                                                          'Top Right',
-                                                  options: [
-                                                    'Top Right',
-                                                    'Top Left',
-                                                    'Bottom Right',
-                                                    'Bottom Left'
-                                                  ],
-                                                  onChanged: (val) async {
-                                                    setState(() => _model
-                                                        .dropDownValue = val);
-                                                    await actions.watermarkImg(
-                                                      widget.ogImg!,
-                                                      'https://firebasestorage.googleapis.com/v0/b/car-extractor.appspot.com/o/users%2FATNF5cTtinfH3Xzm3eukkMcsktN2%2Ftwt%20logo.png?alt=media&token=947dd402-58d7-47f6-90a1-0b558431919c',
-                                                      _model.dropDownValue!,
-                                                    );
-                                                  },
-                                                  width: 300.0,
-                                                  height: 70.0,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .white,
-                                                      ),
-                                                  hintText: 'Please Select',
-                                                  elevation: 2.0,
-                                                  borderColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primaryColor,
-                                                  borderWidth: 1.0,
-                                                  borderRadius: 8.0,
-                                                  margin: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          12.0, 4.0, 12.0, 4.0),
-                                                  hidesUnderline: true,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
@@ -231,7 +168,7 @@ class _ImageEditorWidgetState extends State<ImageEditorWidget> {
                                             ),
                                           ),
                                           Text(
-                                            'Done',
+                                            'Back to Home',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(

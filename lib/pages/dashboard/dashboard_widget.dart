@@ -1,5 +1,6 @@
+import '/components/background_remover/background_remover_widget.dart';
 import '/components/footer/footer_widget.dart';
-import '/components/image_processor/image_processor_widget.dart';
+import '/components/logo_adder/logo_adder_widget.dart';
 import '/components/my_designs/my_designs_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -60,11 +61,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                     updateCallback: () => setState(() {}),
                     child: NavbarWidget(),
                   ),
-                  wrapWithModel(
-                    model: _model.imageProcessorModel,
-                    updateCallback: () => setState(() {}),
-                    child: ImageProcessorWidget(),
-                  ),
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
@@ -73,6 +69,16 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       updateCallback: () => setState(() {}),
                       child: MyDesignsWidget(),
                     ),
+                  ),
+                  wrapWithModel(
+                    model: _model.backgroundRemoverModel,
+                    updateCallback: () => setState(() {}),
+                    child: BackgroundRemoverWidget(),
+                  ),
+                  wrapWithModel(
+                    model: _model.logoAdderModel,
+                    updateCallback: () => setState(() {}),
+                    child: LogoAdderWidget(),
                   ),
                   Padding(
                     padding:
