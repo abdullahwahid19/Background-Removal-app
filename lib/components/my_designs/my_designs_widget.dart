@@ -1,10 +1,12 @@
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/no_designs/no_designs_widget.dart';
+import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'my_designs_model.dart';
 export 'my_designs_model.dart';
@@ -95,13 +97,36 @@ class _MyDesignsWidgetState extends State<MyDesignsWidget> {
                           return Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: Image.network(
-                                designsItem.image!,
-                                width: 500.0,
-                                height: 300.0,
-                                fit: BoxFit.cover,
+                            child: InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: FlutterFlowExpandedImageView(
+                                      image: Image.network(
+                                        designsItem.image!,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      allowRotation: false,
+                                      tag: designsItem.image!,
+                                      useHeroAnimation: true,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Hero(
+                                tag: designsItem.image!,
+                                transitionOnUserGestures: true,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  child: Image.network(
+                                    designsItem.image!,
+                                    width: 500.0,
+                                    height: 300.0,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                               ),
                             ),
                           );
