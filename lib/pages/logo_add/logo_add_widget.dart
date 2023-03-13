@@ -1,6 +1,5 @@
 import '/components/footer/footer_widget.dart';
 import '/components/navbar/navbar_widget.dart';
-import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -127,74 +126,6 @@ class _LogoAddWidgetState extends State<LogoAddWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                'Logo Position',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1,
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        16.0, 0.0, 0.0, 0.0),
-                                                child:
-                                                    FlutterFlowDropDown<String>(
-                                                  initialOption:
-                                                      _model.dropDownValue ??=
-                                                          'Top Right',
-                                                  options: [
-                                                    'Top Right',
-                                                    'Top Left',
-                                                    'Bottom Right',
-                                                    'Bottom Left'
-                                                  ],
-                                                  onChanged: (val) => setState(
-                                                      () => _model
-                                                          .dropDownValue = val),
-                                                  width: 300.0,
-                                                  height: 70.0,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .white,
-                                                      ),
-                                                  hintText: 'Please Select',
-                                                  elevation: 2.0,
-                                                  borderColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primaryColor,
-                                                  borderWidth: 1.0,
-                                                  borderRadius: 8.0,
-                                                  margin: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          12.0, 4.0, 12.0, 4.0),
-                                                  hidesUnderline: true,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            'Update',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryColor,
-                                                  fontSize: 16.0,
-                                                ),
-                                          ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
@@ -236,17 +167,23 @@ class _LogoAddWidgetState extends State<LogoAddWidget> {
                                               ),
                                             ),
                                           ),
-                                          Text(
-                                            'Back To Home',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryColor,
-                                                  fontSize: 16.0,
-                                                ),
+                                          InkWell(
+                                            onTap: () async {
+                                              context.pushNamed('Dashboard');
+                                            },
+                                            child: Text(
+                                              'Back To Home',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyText1
+                                                  .override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryColor,
+                                                    fontSize: 16.0,
+                                                  ),
+                                            ),
                                           ),
                                         ],
                                       ),

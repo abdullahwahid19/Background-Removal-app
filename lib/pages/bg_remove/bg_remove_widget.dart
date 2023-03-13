@@ -167,17 +167,23 @@ class _BgRemoveWidgetState extends State<BgRemoveWidget> {
                                               ),
                                             ),
                                           ),
-                                          Text(
-                                            'Back to Home',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryColor,
-                                                  fontSize: 16.0,
-                                                ),
+                                          InkWell(
+                                            onTap: () async {
+                                              context.pushNamed('Dashboard');
+                                            },
+                                            child: Text(
+                                              'Back to Home',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyText1
+                                                  .override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryColor,
+                                                    fontSize: 16.0,
+                                                  ),
+                                            ),
                                           ),
                                         ],
                                       ),
