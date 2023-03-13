@@ -15,7 +15,7 @@ import 'package:flutterflow_colorpicker/flutterflow_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class ImageProcessorModel extends FlutterFlowModel {
+class BackgroundRemoverModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this component.
 
   bool isMediaUploading1 = false;
@@ -37,8 +37,6 @@ class ImageProcessorModel extends FlutterFlowModel {
   String? apiImageColor;
   // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
   String? apiImageBg;
-  // Stores action output result for [Custom Action - watermarkImg] action in Button widget.
-  String? testImg;
 
   /// Initialization and disposal methods.
 

@@ -15,39 +15,19 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
-Future<String> watermarkImg(String img, String logo, String pos) async {
-  var bytesImg;
-  var bytesLogo;
+Future<String> watermarkImg(dynamic img, dynamic logo, String pos) async {
   var positions = {
     "Top Right": [0, 0],
     "Top Left": [100, 0],
     "Bottom Right": [0, 100],
     "Bottom Left": [100, 100]
   };
-  try {
-    // bytesImg = await FirebaseStorage.instance.ref(img).getData()!;
-    bytesImg = await getImageBytes(
-        "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg");
-  } on FirebaseException catch (e) {
-    print('Error loading image from Firebase Storage: $e');
-  } on IOException catch (e) {
-    print('Error loading image from Firebase Storage: $e');
-  }
 
-  try {
-    // bytesLogo = await FirebaseStorage.instance.ref(logo).getData()!;
-    bytesLogo = await getImageBytes(
-        "https://th.bing.com/th/id/R.8dd6be8c6ab596e1603b5c75bf56386c?rik=6c4G1Gam%2fbs6JQ&pid=ImgRaw&r=0");
-  } on FirebaseException catch (e) {
-    print('Error loading image from Firebase Storage: $e');
-  } on IOException catch (e) {
-    print('Error loading image from Firebase Storage: $e');
-  }
-  if ((bytesImg != Uint8List(0)) && (bytesLogo != Uint8List(0))) {
+  if ((img != Uint8List(0)) && (logo != Uint8List(0))) {
     var newImg = await ImageWatermark.addImageWatermark(
         //image bytes
-        originalImageBytes: bytesImg,
-        waterkmarkImageBytes: bytesLogo,
+        originalImageBytes: img,
+        waterkmarkImageBytes: logo,
         imgHeight: 200,
         imgWidth: 200,
         dstY: (positions[pos])![0],
@@ -72,14 +52,4 @@ Future<String> watermarkImg(String img, String logo, String pos) async {
   }
 
   return "https://upload.wikimedia.org/wikipedia/commons/b/bb/Gorgosaurus_BW_transparent.png";
-}
-
-Future<Uint8List> getImageBytes(String imageUrl) async {
-  final response = await http.get(Uri.parse(imageUrl));
-  if (response.statusCode == 200) {
-    return response.bodyBytes;
-  } else {
-    throw Exception(
-        'Failed to load image: $imageUrl, status code: ${response.statusCode}');
-  }
 }
