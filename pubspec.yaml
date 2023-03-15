@@ -44,6 +44,7 @@ dependencies:
   firebase_storage_web: 3.3.17
   flutter_animate: 1.0.0
   flutter_cache_manager: 3.3.0
+  flutter_dropzone: 3.0.5
   flutterflow_colorpicker: 
     git:
       url: https://github.com/FlutterFlow/flutterflow_colorpicker.git

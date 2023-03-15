@@ -1,3 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_cache_manager/file.dart';
+
+import '../../auth/firebase_user_provider.dart';
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
@@ -16,6 +21,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'background_remover_model.dart';
 export 'background_remover_model.dart';
+import 'package:flutter_dropzone/flutter_dropzone.dart';
 
 class BackgroundRemoverWidget extends StatefulWidget {
   const BackgroundRemoverWidget({Key? key}) : super(key: key);
@@ -25,8 +31,30 @@ class BackgroundRemoverWidget extends StatefulWidget {
       _BackgroundRemoverWidgetState();
 }
 
+Future<String> uploadFile(Uint8List file, String fileName) async {
+  final currentUser = FirebaseAuth.instance.currentUser;
+  if (currentUser == null) {
+    // User is not authenticated, handle this error
+    return "";
+  }
+
+  fileName = fileName + '.jpg';
+  final storageRef = FirebaseStorage.instance
+      .ref()
+      .child('users')
+      .child(currentUser.uid)
+      .child(fileName);
+
+  final uploadTask = storageRef.putData(file);
+  final snapshot = await uploadTask.whenComplete(() {});
+  final downloadUrl = await snapshot.ref.getDownloadURL();
+  return downloadUrl;
+}
+
 class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
   late BackgroundRemoverModel _model;
+  late DropzoneViewController controller;
+  late File imageFileApi;
 
   @override
   void setState(VoidCallback callback) {
@@ -94,15 +122,50 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.network(
-                          _model.uploadedFileUrl1 != null &&
-                                  _model.uploadedFileUrl1 != ''
-                              ? _model.uploadedFileUrl1
-                              : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                          width: 150.0,
-                          height: 100.0,
-                          fit: BoxFit.cover,
-                        ),
+                        Container(
+                            child: Stack(
+                              children: [
+                                DropzoneView(
+                                  operation: DragOperation.copy,
+                                  cursor: CursorType.grabbing,
+                                  onCreated: (ctrl) => controller = ctrl,
+                                  onDrop: (ev) async {
+                                    if (ev != null) {
+                                      var fileBytes =
+                                          await controller.getFileData(ev);
+                                      String temp = await uploadFile(
+                                        fileBytes,
+                                        random_data.randomString(
+                                          10,
+                                          10,
+                                          true,
+                                          true,
+                                          true,
+                                        ),
+                                      );
+                                      setState(() {
+                                        _model.uploadedLocalFile1 =
+                                            FFUploadedFile(
+                                                name: ev.name,
+                                                bytes: fileBytes);
+                                        _model.uploadedFileUrl1 = temp;
+                                      });
+                                    }
+                                  },
+                                ),
+                                Image.network(
+                                  _model.uploadedFileUrl1 != null &&
+                                          _model.uploadedFileUrl1 != ''
+                                      ? _model.uploadedFileUrl1
+                                      : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                  width: 150.0,
+                                  height: 100.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
+                            ),
+                            height: 100.0,
+                            width: 150.0),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
