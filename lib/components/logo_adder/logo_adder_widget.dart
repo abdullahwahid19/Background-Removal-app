@@ -1,6 +1,7 @@
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
+import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -35,6 +36,7 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
     super.initState();
     _model = createModel(context, () => LogoAdderModel());
 
+    _model.textController ??= TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -204,132 +206,248 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    32.0, 32.0, 32.0, 32.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      'Image',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1,
+                              FlutterFlowRadioButton(
+                                options: ['Image', 'Text'].toList(),
+                                initialValue: 'Image',
+                                onChanged: (val) => setState(
+                                    () => _model.radioButtonValue = val),
+                                optionHeight: 50.0,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      color: FlutterFlowTheme.of(context).white,
+                                      fontSize: 20.0,
                                     ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          32.0, 0.0, 0.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Image.network(
-                                            _model.uploadedLocalFile2 != null
-                                                ? 'www.google.com'
-                                                : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                            width: 150.0,
-                                            height: 100.0,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 16.0, 0.0, 0.0),
-                                            child: InkWell(
-                                              onTap: () async {
-                                                final selectedMedia =
-                                                    await selectMediaWithSourceBottomSheet(
-                                                  context: context,
-                                                  allowPhoto: true,
-                                                );
-                                                if (selectedMedia != null &&
-                                                    selectedMedia.every((m) =>
-                                                        validateFileFormat(
-                                                            m.storagePath,
-                                                            context))) {
-                                                  setState(() =>
-                                                      _model.isMediaUploading2 =
-                                                          true);
-                                                  var selectedUploadedFiles =
-                                                      <FFUploadedFile>[];
+                                selectedTextStyle: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      color: FlutterFlowTheme.of(context).white,
+                                      fontSize: 20.0,
+                                    ),
+                                buttonPosition: RadioButtonPosition.left,
+                                direction: Axis.horizontal,
+                                radioButtonColor:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                                inactiveRadioButtonColor:
+                                    FlutterFlowTheme.of(context).white,
+                                toggleable: false,
+                                horizontalAlignment: WrapAlignment.spaceEvenly,
+                                verticalAlignment: WrapCrossAlignment.start,
+                              ),
+                              if (_model.radioButtonValue == 'Image')
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      32.0, 32.0, 32.0, 32.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        'Image',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            32.0, 0.0, 0.0, 0.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Image.network(
+                                              _model.uploadedLocalFile2 != null
+                                                  ? 'www.google.com'
+                                                  : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                              width: 150.0,
+                                              height: 100.0,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 16.0, 0.0, 0.0),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  final selectedMedia =
+                                                      await selectMediaWithSourceBottomSheet(
+                                                    context: context,
+                                                    allowPhoto: true,
+                                                  );
+                                                  if (selectedMedia != null &&
+                                                      selectedMedia.every((m) =>
+                                                          validateFileFormat(
+                                                              m.storagePath,
+                                                              context))) {
+                                                    setState(() => _model
+                                                            .isMediaUploading2 =
+                                                        true);
+                                                    var selectedUploadedFiles =
+                                                        <FFUploadedFile>[];
 
-                                                  try {
-                                                    showUploadMessage(
-                                                      context,
-                                                      'Uploading file...',
-                                                      showLoading: true,
-                                                    );
-                                                    selectedUploadedFiles =
-                                                        selectedMedia
-                                                            .map((m) =>
-                                                                FFUploadedFile(
-                                                                  name: m
-                                                                      .storagePath
-                                                                      .split(
-                                                                          '/')
-                                                                      .last,
-                                                                  bytes:
-                                                                      m.bytes,
-                                                                  height: m
-                                                                      .dimensions
-                                                                      ?.height,
-                                                                  width: m
-                                                                      .dimensions
-                                                                      ?.width,
-                                                                ))
-                                                            .toList();
-                                                  } finally {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .hideCurrentSnackBar();
-                                                    _model.isMediaUploading2 =
-                                                        false;
+                                                    try {
+                                                      showUploadMessage(
+                                                        context,
+                                                        'Uploading file...',
+                                                        showLoading: true,
+                                                      );
+                                                      selectedUploadedFiles =
+                                                          selectedMedia
+                                                              .map((m) =>
+                                                                  FFUploadedFile(
+                                                                    name: m
+                                                                        .storagePath
+                                                                        .split(
+                                                                            '/')
+                                                                        .last,
+                                                                    bytes:
+                                                                        m.bytes,
+                                                                    height: m
+                                                                        .dimensions
+                                                                        ?.height,
+                                                                    width: m
+                                                                        .dimensions
+                                                                        ?.width,
+                                                                  ))
+                                                              .toList();
+                                                    } finally {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .hideCurrentSnackBar();
+                                                      _model.isMediaUploading2 =
+                                                          false;
+                                                    }
+                                                    if (selectedUploadedFiles
+                                                            .length ==
+                                                        selectedMedia.length) {
+                                                      setState(() {
+                                                        _model.uploadedLocalFile2 =
+                                                            selectedUploadedFiles
+                                                                .first;
+                                                      });
+                                                      showUploadMessage(
+                                                          context, 'Success!');
+                                                    } else {
+                                                      setState(() {});
+                                                      showUploadMessage(context,
+                                                          'Failed to upload media');
+                                                      return;
+                                                    }
                                                   }
-                                                  if (selectedUploadedFiles
-                                                          .length ==
-                                                      selectedMedia.length) {
-                                                    setState(() {
-                                                      _model.uploadedLocalFile2 =
-                                                          selectedUploadedFiles
-                                                              .first;
-                                                    });
-                                                    showUploadMessage(
-                                                        context, 'Success!');
-                                                  } else {
-                                                    setState(() {});
-                                                    showUploadMessage(context,
-                                                        'Failed to upload media');
-                                                    return;
-                                                  }
-                                                }
-                                              },
-                                              child: Text(
-                                                _model.uploadedLocalFile2 !=
-                                                        null
-                                                    ? 'Edit Image'
-                                                    : 'Upload Image',
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyText1
-                                                    .override(
-                                                      fontFamily: 'Montserrat',
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryColor,
-                                                      fontSize: 16.0,
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                    ),
+                                                },
+                                                child: Text(
+                                                  _model.uploadedLocalFile2 !=
+                                                          null
+                                                      ? 'Edit Image'
+                                                      : 'Upload Image',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                        fontSize: 16.0,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                      ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              if (_model.radioButtonValue == 'Text')
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      32.0, 32.0, 32.0, 32.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        'Text',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1,
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  32.0, 32.0, 32.0, 32.0),
+                                          child: TextFormField(
+                                            controller: _model.textController,
+                                            obscureText: false,
+                                            decoration: InputDecoration(
+                                              labelText: 'Logo Text',
+                                              labelStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText2,
+                                              hintStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText2,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryColor,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              filled: true,
+                                              contentPadding:
+                                                  EdgeInsetsDirectional
+                                                      .fromSTEB(20.0, 24.0,
+                                                          20.0, 24.0),
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
+                                            maxLines: null,
+                                            validator: _model
+                                                .textControllerValidator
+                                                .asValidator(context),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     32.0, 32.0, 32.0, 32.0),
@@ -395,46 +513,94 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                           16.0, 32.0, 16.0, 32.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          _model.waterOut = await actions.watermarkImg(
-                            FFAppState().nullJson,
-                            FFAppState().nullJson,
-                            _model.dropDownValue!,
-                            random_data.randomString(
-                              10,
-                              10,
-                              true,
-                              true,
-                              true,
-                            ),
-                          );
-
-                          final usersUpdateData = {
-                            'myDesigns': FieldValue.arrayUnion([
-                              getOldEditsFirestoreData(
-                                createOldEditsStruct(
-                                  date: getCurrentTimestamp,
-                                  image: _model.waterOut?.last,
-                                  clearUnsetFields: false,
-                                ),
+                          if (_model.radioButtonValue == 'Image') {
+                            _model.waterOut = await actions.watermarkImg(
+                              FFAppState().nullJson,
+                              FFAppState().nullJson,
+                              _model.dropDownValue!,
+                              random_data.randomString(
+                                10,
+                                10,
                                 true,
-                              )
-                            ]),
-                          };
-                          await currentUserReference!.update(usersUpdateData);
+                                true,
+                                true,
+                              ),
+                            );
 
-                          context.pushNamed(
-                            'LogoAdd',
-                            queryParams: {
-                              'ogImg': serializeParam(
-                                _model.waterOut?.first,
-                                ParamType.String,
+                            final usersUpdateData1 = {
+                              'myDesigns': FieldValue.arrayUnion([
+                                getOldEditsFirestoreData(
+                                  createOldEditsStruct(
+                                    date: getCurrentTimestamp,
+                                    image: _model.waterOut?.last,
+                                    clearUnsetFields: false,
+                                  ),
+                                  true,
+                                )
+                              ]),
+                            };
+                            await currentUserReference!
+                                .update(usersUpdateData1);
+
+                            context.pushNamed(
+                              'LogoAdd',
+                              queryParams: {
+                                'ogImg': serializeParam(
+                                  _model.waterOut?.first,
+                                  ParamType.String,
+                                ),
+                                'resImg': serializeParam(
+                                  _model.waterOut?.last,
+                                  ParamType.String,
+                                ),
+                              }.withoutNulls,
+                            );
+                          } else {
+                            _model.strImg = await actions.stringToImage(
+                              _model.textController.text,
+                            );
+                            _model.waterOutT = await actions.watermarkImg(
+                              FFAppState().nullJson,
+                              FFAppState().nullJson,
+                              _model.dropDownValue!,
+                              random_data.randomString(
+                                10,
+                                10,
+                                true,
+                                true,
+                                true,
                               ),
-                              'resImg': serializeParam(
-                                _model.waterOut?.last,
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
+                            );
+
+                            final usersUpdateData2 = {
+                              'myDesigns': FieldValue.arrayUnion([
+                                getOldEditsFirestoreData(
+                                  createOldEditsStruct(
+                                    date: getCurrentTimestamp,
+                                    image: _model.waterOutT?.last,
+                                    clearUnsetFields: false,
+                                  ),
+                                  true,
+                                )
+                              ]),
+                            };
+                            await currentUserReference!
+                                .update(usersUpdateData2);
+
+                            context.pushNamed(
+                              'LogoAdd',
+                              queryParams: {
+                                'ogImg': serializeParam(
+                                  _model.waterOutT?.first,
+                                  ParamType.String,
+                                ),
+                                'resImg': serializeParam(
+                                  _model.waterOutT?.last,
+                                  ParamType.String,
+                                ),
+                              }.withoutNulls,
+                            );
+                          }
 
                           setState(() {});
                         },

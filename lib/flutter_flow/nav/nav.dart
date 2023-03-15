@@ -111,6 +111,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => LogoAddWidget(
                 ogImg: params.getParam('ogImg', ParamType.String),
                 resImg: params.getParam('resImg', ParamType.String),
+                imgbytes: params.getParam('imgbytes', ParamType.JSON),
+                logobytes: params.getParam('logobytes', ParamType.JSON),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
