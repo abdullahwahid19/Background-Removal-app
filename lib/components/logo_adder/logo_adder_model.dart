@@ -1,6 +1,7 @@
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
+import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -19,20 +20,31 @@ class LogoAdderModel extends FlutterFlowModel {
   FFUploadedFile uploadedLocalFile1 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
 
+  // State field(s) for RadioButton widget.
+  String? radioButtonValue;
   bool isMediaUploading2 = false;
   FFUploadedFile uploadedLocalFile2 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
 
+  // State field(s) for TextField widget.
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
   // State field(s) for DropDown widget.
   String? dropDownValue;
   // Stores action output result for [Custom Action - watermarkImg] action in Button widget.
   List<String>? waterOut;
+  // Stores action output result for [Custom Action - stringToImage] action in Button widget.
+  dynamic? strImg;
+  // Stores action output result for [Custom Action - watermarkImg] action in Button widget.
+  List<String>? waterOutT;
 
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}
 
-  void dispose() {}
+  void dispose() {
+    textController?.dispose();
+  }
 
   /// Additional helper methods are added here.
 

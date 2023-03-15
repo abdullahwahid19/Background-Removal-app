@@ -5,7 +5,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +19,14 @@ class LogoAddWidget extends StatefulWidget {
     Key? key,
     this.ogImg,
     this.resImg,
+    this.imgbytes,
+    this.logobytes,
   }) : super(key: key);
 
   final String? ogImg;
   final String? resImg;
+  final dynamic imgbytes;
+  final dynamic logobytes;
 
   @override
   _LogoAddWidgetState createState() => _LogoAddWidgetState();
@@ -37,6 +43,7 @@ class _LogoAddWidgetState extends State<LogoAddWidget> {
     super.initState();
     _model = createModel(context, () => LogoAddModel());
 
+    _model.textController ??= TextEditingController(text: '50');
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -161,6 +168,363 @@ class _LogoAddWidgetState extends State<LogoAddWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                'Move Logo',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        32.0, 0.0, 0.0, 0.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0,
+                                                                  8.0),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          _model.waterOutL =
+                                                              await actions
+                                                                  .watermarkImg(
+                                                            widget.imgbytes!,
+                                                            widget.logobytes!,
+                                                            'previous value',
+                                                            random_data
+                                                                .randomString(
+                                                              10,
+                                                              10,
+                                                              true,
+                                                              true,
+                                                              true,
+                                                            ),
+                                                          );
+
+                                                          context.pushNamed(
+                                                            'LogoAdd',
+                                                            queryParams: {
+                                                              'ogImg':
+                                                                  serializeParam(
+                                                                _model.waterOutL
+                                                                    ?.first,
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'resImg':
+                                                                  serializeParam(
+                                                                _model.waterOutL
+                                                                    ?.last,
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                            }.withoutNulls,
+                                                          );
+
+                                                          setState(() {});
+                                                        },
+                                                        child: Icon(
+                                                          Icons.arrow_left,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .white,
+                                                          size: 48.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0),
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              _model.waterOut =
+                                                                  await actions
+                                                                      .watermarkImg(
+                                                                widget
+                                                                    .imgbytes!,
+                                                                widget
+                                                                    .logobytes!,
+                                                                'previous value',
+                                                                random_data
+                                                                    .randomString(
+                                                                  10,
+                                                                  10,
+                                                                  true,
+                                                                  true,
+                                                                  true,
+                                                                ),
+                                                              );
+
+                                                              context.pushNamed(
+                                                                'LogoAdd',
+                                                                queryParams: {
+                                                                  'ogImg':
+                                                                      serializeParam(
+                                                                    _model
+                                                                        .waterOutR
+                                                                        ?.first,
+                                                                    ParamType
+                                                                        .String,
+                                                                  ),
+                                                                  'resImg':
+                                                                      serializeParam(
+                                                                    _model
+                                                                        .waterOutR
+                                                                        ?.last,
+                                                                    ParamType
+                                                                        .String,
+                                                                  ),
+                                                                }.withoutNulls,
+                                                              );
+
+                                                              setState(() {});
+                                                            },
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_drop_up,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .white,
+                                                              size: 48.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          width: 50.0,
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: Container(
+                                                            width: 48.0,
+                                                            child:
+                                                                TextFormField(
+                                                              controller: _model
+                                                                  .textController,
+                                                              autofocus: true,
+                                                              obscureText:
+                                                                  false,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                hintStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText2,
+                                                                enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                    width: 2.0,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                ),
+                                                                focusedBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: Color(
+                                                                        0x00000000),
+                                                                    width: 2.0,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                ),
+                                                                errorBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: Color(
+                                                                        0x00000000),
+                                                                    width: 2.0,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                ),
+                                                                focusedErrorBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: Color(
+                                                                        0x00000000),
+                                                                    width: 2.0,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                ),
+                                                              ),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyText1
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    fontSize:
+                                                                        16.0,
+                                                                  ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              validator: _model
+                                                                  .textControllerValidator
+                                                                  .asValidator(
+                                                                      context),
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter
+                                                                    .allow(RegExp(
+                                                                        '[0-9]'))
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0),
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              _model.waterOutD =
+                                                                  await actions
+                                                                      .watermarkImg(
+                                                                widget
+                                                                    .imgbytes!,
+                                                                widget
+                                                                    .logobytes!,
+                                                                'previous value',
+                                                                random_data
+                                                                    .randomString(
+                                                                  10,
+                                                                  10,
+                                                                  true,
+                                                                  true,
+                                                                  true,
+                                                                ),
+                                                              );
+
+                                                              context.pushNamed(
+                                                                'LogoAdd',
+                                                                queryParams: {
+                                                                  'ogImg':
+                                                                      serializeParam(
+                                                                    _model
+                                                                        .waterOutD
+                                                                        ?.first,
+                                                                    ParamType
+                                                                        .String,
+                                                                  ),
+                                                                  'resImg':
+                                                                      serializeParam(
+                                                                    _model
+                                                                        .waterOutD
+                                                                        ?.last,
+                                                                    ParamType
+                                                                        .String,
+                                                                  ),
+                                                                }.withoutNulls,
+                                                              );
+
+                                                              setState(() {});
+                                                            },
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .white,
+                                                              size: 48.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 8.0, 0.0, 8.0),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    _model.waterOutR =
+                                                        await actions
+                                                            .watermarkImg(
+                                                      widget.imgbytes!,
+                                                      widget.logobytes!,
+                                                      'previous value',
+                                                      random_data.randomString(
+                                                        10,
+                                                        10,
+                                                        true,
+                                                        true,
+                                                        true,
+                                                      ),
+                                                    );
+
+                                                    context.pushNamed(
+                                                      'LogoAdd',
+                                                      queryParams: {
+                                                        'ogImg': serializeParam(
+                                                          _model
+                                                              .waterOutR?.first,
+                                                          ParamType.String,
+                                                        ),
+                                                        'resImg':
+                                                            serializeParam(
+                                                          _model
+                                                              .waterOutR?.last,
+                                                          ParamType.String,
+                                                        ),
+                                                      }.withoutNulls,
+                                                    );
+
+                                                    setState(() {});
+                                                  },
+                                                  child: Icon(
+                                                    Icons.arrow_right,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .white,
+                                                    size: 48.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
