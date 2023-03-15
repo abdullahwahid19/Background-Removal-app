@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'logo_adder_model.dart';
 export 'logo_adder_model.dart';
+import 'package:http/http.dart' as http;
 
 class LogoAdderWidget extends StatefulWidget {
   const LogoAdderWidget({Key? key}) : super(key: key);
@@ -50,6 +51,8 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+
+    print(_model.uploadedLocalFile1);
 
     return Container(
       decoration: BoxDecoration(),
@@ -97,14 +100,20 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.network(
-                              _model.uploadedLocalFile1 != null
-                                  ? 'www.google.com'
-                                  : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                              width: 150.0,
-                              height: 100.0,
-                              fit: BoxFit.cover,
-                            ),
+                            Container(
+                                child: _model.uploadedLocalFile1.name == null
+                                    ? Image.network(
+                                        'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                        height: 100.0,
+                                        width: 150.0,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.memory(
+                                        _model.uploadedLocalFile1.bytes!,
+                                        height: 100.0,
+                                        width: 150.0,
+                                        fit: BoxFit.cover,
+                                      )),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
@@ -161,9 +170,9 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                   }
                                 },
                                 child: Text(
-                                  _model.uploadedLocalFile1 != null
-                                      ? 'Edit Image'
-                                      : 'Upload Image',
+                                  _model.uploadedLocalFile1.name == null
+                                      ? 'Upload Image'
+                                      : 'Edit Image',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyText1
                                       .override(
@@ -256,14 +265,24 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Image.network(
-                                              _model.uploadedLocalFile2 != null
-                                                  ? 'www.google.com'
-                                                  : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                              width: 150.0,
-                                              height: 100.0,
-                                              fit: BoxFit.cover,
-                                            ),
+                                            Container(
+                                                child: _model.uploadedLocalFile2
+                                                            .name ==
+                                                        null
+                                                    ? Image.network(
+                                                        'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                                        height: 100.0,
+                                                        width: 150.0,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : Image.memory(
+                                                        _model
+                                                            .uploadedLocalFile2
+                                                            .bytes!,
+                                                        height: 100.0,
+                                                        width: 150.0,
+                                                        fit: BoxFit.cover,
+                                                      )),
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
@@ -337,10 +356,11 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                                   }
                                                 },
                                                 child: Text(
-                                                  _model.uploadedLocalFile2 !=
+                                                  _model.uploadedLocalFile2
+                                                              .name ==
                                                           null
-                                                      ? 'Edit Image'
-                                                      : 'Upload Image',
+                                                      ? 'Upload Image'
+                                                      : 'Edit Image',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyText1
@@ -515,8 +535,8 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                         onPressed: () async {
                           if (_model.radioButtonValue == 'Image') {
                             _model.waterOut = await actions.watermarkImg(
-                              FFAppState().nullJson,
-                              FFAppState().nullJson,
+                              _model.uploadedLocalFile1.bytes,
+                              _model.uploadedLocalFile2.bytes,
                               _model.dropDownValue!,
                               random_data.randomString(
                                 10,

@@ -72,42 +72,38 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                         ),
                   ),
                 ),
-                if (!loggedIn)
-                  Text(
-                    'Home',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                if (!loggedIn)
-                  Text(
-                    'Product',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                if (!loggedIn)
-                  Text(
-                    'Pricing',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                if (!loggedIn)
-                  Text(
-                    'Contact',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
+                Text(
+                  'Home',
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                Text(
+                  'Product',
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                Text(
+                  'Pricing',
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                Text(
+                  'Contact',
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
               ],
             ),
           ),

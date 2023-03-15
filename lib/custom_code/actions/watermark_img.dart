@@ -1,4 +1,6 @@
 // Automatic FlutterFlow imports
+import 'dart:async';
+
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -15,24 +17,58 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
+Future<Size> getImageSize(Uint8List imageBytes) async {
+  Completer<Size> completer = Completer();
+  Image image = Image.memory(imageBytes);
+
+  image.image.resolve(ImageConfiguration()).addListener(
+    ImageStreamListener(
+      (ImageInfo imageInfo, bool synchronousCall) {
+        completer.complete(
+          Size(
+            imageInfo.image.width.toDouble(),
+            imageInfo.image.height.toDouble(),
+          ),
+        );
+      },
+    ),
+  );
+
+  return await completer.future;
+}
+
 Future<List<String>> watermarkImg(
     dynamic img, dynamic logo, String pos, String name) async {
+  Size imageSize = await getImageSize(img);
+  print('Image width: ${imageSize.width}');
+  print('Image height: ${imageSize.height}');
+  var logoSize = 0;
+  if (imageSize.height > imageSize.width) {
+    logoSize = imageSize.width.toInt() ~/ 10;
+  } else {
+    logoSize = imageSize.height.toInt() ~/ 10;
+  }
   var positions = {
-    "Top Right": [0, 0],
-    "Top Left": [-200, 0],
-    "Bottom Right": [0, -200],
-    "Bottom Left": [-200, -200]
+    "Top Right": [imageSize.width.toInt() - logoSize, 0],
+    "Top Left": [0, 0],
+    "Bottom Right": [
+      imageSize.width.toInt() - logoSize,
+      imageSize.height.toInt() - logoSize
+    ],
+    "Bottom Left": [0, imageSize.height.toInt() - logoSize]
   };
+
+  print(positions[pos]);
 
   if ((img != Uint8List(0)) && (logo != Uint8List(0))) {
     var newImg = await ImageWatermark.addImageWatermark(
         //image bytes
         originalImageBytes: img,
         waterkmarkImageBytes: logo,
-        imgHeight: 200,
-        imgWidth: 200,
-        dstY: (positions[pos])![0],
-        dstX: (positions[pos])![1]);
+        imgHeight: logoSize,
+        imgWidth: logoSize,
+        dstY: (positions[pos])![1],
+        dstX: (positions[pos])![0]);
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
