@@ -197,6 +197,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         filled: true,
+                        fillColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
                         contentPadding: EdgeInsetsDirectional.fromSTEB(
                             20.0, 24.0, 20.0, 24.0),
                       ),
@@ -261,6 +263,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         filled: true,
+                        fillColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
                         contentPadding: EdgeInsetsDirectional.fromSTEB(
                             20.0, 24.0, 20.0, 24.0),
                       ),
@@ -325,6 +329,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         filled: true,
+                        fillColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
                         contentPadding: EdgeInsetsDirectional.fromSTEB(
                             20.0, 24.0, 20.0, 24.0),
                       ),
@@ -389,6 +395,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         filled: true,
+                        fillColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
                         contentPadding: EdgeInsetsDirectional.fromSTEB(
                             20.0, 24.0, 20.0, 24.0),
                         suffixIcon: InkWell(
@@ -466,6 +474,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         filled: true,
+                        fillColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
                         contentPadding: EdgeInsetsDirectional.fromSTEB(
                             20.0, 24.0, 20.0, 24.0),
                         suffixIcon: InkWell(
