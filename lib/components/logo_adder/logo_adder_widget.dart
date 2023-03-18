@@ -422,6 +422,9 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryBackground,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   20.0, 24.0, 20.0, 24.0),
@@ -539,41 +542,116 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
               ],
             ),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 32.0, 0.0),
+          if (FFAppState().logoAddResult != null &&
+              FFAppState().logoAddResult != '')
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 32.0, 0.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Edited Image',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 16.0, 0.0, 0.0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        child: FlutterFlowExpandedImageView(
+                                          image: Image.network(
+                                            FFAppState().logoAddResult !=
+                                                        null &&
+                                                    FFAppState()
+                                                            .logoAddResult !=
+                                                        ''
+                                                ? FFAppState().logoAddResult
+                                                : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                          allowRotation: false,
+                                          tag: FFAppState().logoAddResult !=
+                                                      null &&
+                                                  FFAppState().logoAddResult !=
+                                                      ''
+                                              ? FFAppState().logoAddResult
+                                              : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                          useHeroAnimation: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Hero(
+                                    tag: FFAppState().logoAddResult != null &&
+                                            FFAppState().logoAddResult != ''
+                                        ? FFAppState().logoAddResult
+                                        : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                    transitionOnUserGestures: true,
+                                    child: Image.network(
+                                      FFAppState().logoAddResult != null &&
+                                              FFAppState().logoAddResult != ''
+                                          ? FFAppState().logoAddResult
+                                          : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                      width: 1100.0,
+                                      height: 700.0,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Edited Image',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ],
+                            Align(
+                              alignment: AlignmentDirectional(-1.0, 0.0),
+                              child: Text(
+                                'Orignal Image',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -615,401 +693,350 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                             FFAppState().logoAddResult != ''
                                         ? FFAppState().logoAddResult
                                         : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                    width: 1100.0,
-                                    height: 700.0,
+                                    width: 300.0,
+                                    height: 200.0,
                                     fit: BoxFit.contain,
                                   ),
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 8.0, 0.0, 0.0),
+                              child: Text(
+                                'Image SIze: XX x YY',
+                                style: FlutterFlowTheme.of(context).bodyText1,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 32.0, 0.0, 32.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Move Logo',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            32.0, 0.0, 0.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 8.0, 0.0, 8.0),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  setState(() {
+                                                    FFAppState().logoImgPos =
+                                                        FFAppState()
+                                                            .logoImgPos
+                                                            .toList();
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.arrow_left,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  size: 48.0,
+                                                ),
+                                              ),
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 8.0, 8.0, 8.0),
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      setState(() {
+                                                        FFAppState()
+                                                                .logoImgPos =
+                                                            FFAppState()
+                                                                .logoImgPos
+                                                                .toList();
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                      Icons.arrow_drop_up,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      size: 48.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: 50.0,
+                                                  decoration: BoxDecoration(),
+                                                  child: Container(
+                                                    width: 48.0,
+                                                    child: TextFormField(
+                                                      controller: _model
+                                                          .textController2,
+                                                      autofocus: true,
+                                                      obscureText: false,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText2,
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryColor,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0x00000000),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
+                                                        errorBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0x00000000),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
+                                                        focusedErrorBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0x00000000),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
+                                                      ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 16.0,
+                                                              ),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      validator: _model
+                                                          .textController2Validator
+                                                          .asValidator(context),
+                                                      inputFormatters: [
+                                                        FilteringTextInputFormatter
+                                                            .allow(
+                                                                RegExp('[0-9]'))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 8.0, 8.0, 8.0),
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      setState(() {
+                                                        FFAppState()
+                                                                .logoImgPos =
+                                                            FFAppState()
+                                                                .logoImgPos
+                                                                .toList();
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      size: 48.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 8.0, 0.0, 8.0),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            setState(() {
+                                              FFAppState().logoImgPos =
+                                                  FFAppState()
+                                                      .logoImgPos
+                                                      .toList();
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.arrow_right,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            size: 48.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 32.0, 0.0, 0.0),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        await actions.imageDownloader(
+                                          FFAppState().logoAddResult,
+                                        );
+                                      },
+                                      text: 'Download Image',
+                                      options: FFButtonOptions(
+                                        width: 250.0,
+                                        height: 70.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                            ),
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 32.0, 0.0, 0.0),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        final usersUpdateData = {
+                                          'myDesigns': FieldValue.arrayUnion([
+                                            getOldEditsFirestoreData(
+                                              createOldEditsStruct(
+                                                date: getCurrentTimestamp,
+                                                image: FFAppState().bgRemResult,
+                                                clearUnsetFields: false,
+                                              ),
+                                              true,
+                                            )
+                                          ]),
+                                        };
+                                        await currentUserReference!
+                                            .update(usersUpdateData);
+
+                                        context.pushNamed('Dashboard');
+                                      },
+                                      text: 'Save and Reset',
+                                      options: FFButtonOptions(
+                                        width: 250.0,
+                                        height: 70.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
+                                            ),
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 32.0, 0.0, 0.0),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        context.pushNamed('Dashboard');
+                                      },
+                                      child: Text(
+                                        'Reset',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Montserrat',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
+                                              fontSize: 16.0,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Align(
-                            alignment: AlignmentDirectional(-1.0, 0.0),
-                            child: Text(
-                              'Orignal Image',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyText1
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 16.0, 0.0, 0.0),
-                            child: InkWell(
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: FlutterFlowExpandedImageView(
-                                      image: Image.network(
-                                        FFAppState().logoAddResult != null &&
-                                                FFAppState().logoAddResult != ''
-                                            ? FFAppState().logoAddResult
-                                            : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                        fit: BoxFit.contain,
-                                      ),
-                                      allowRotation: false,
-                                      tag: FFAppState().logoAddResult != null &&
-                                              FFAppState().logoAddResult != ''
-                                          ? FFAppState().logoAddResult
-                                          : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                      useHeroAnimation: true,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Hero(
-                                tag: FFAppState().logoAddResult != null &&
-                                        FFAppState().logoAddResult != ''
-                                    ? FFAppState().logoAddResult
-                                    : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                transitionOnUserGestures: true,
-                                child: Image.network(
-                                  FFAppState().logoAddResult != null &&
-                                          FFAppState().logoAddResult != ''
-                                      ? FFAppState().logoAddResult
-                                      : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                  width: 300.0,
-                                  height: 200.0,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 8.0, 0.0, 0.0),
-                            child: Text(
-                              'Image SIze: XX x YY',
-                              style: FlutterFlowTheme.of(context).bodyText1,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 32.0, 0.0, 32.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Move Logo',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          32.0, 0.0, 0.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 8.0, 0.0, 8.0),
-                                            child: InkWell(
-                                              onTap: () async {
-                                                setState(() {
-                                                  FFAppState().logoImgPos =
-                                                      FFAppState()
-                                                          .logoImgPos
-                                                          .toList();
-                                                });
-                                              },
-                                              child: Icon(
-                                                Icons.arrow_left,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                size: 48.0,
-                                              ),
-                                            ),
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 8.0, 8.0, 8.0),
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    setState(() {
-                                                      FFAppState().logoImgPos =
-                                                          FFAppState()
-                                                              .logoImgPos
-                                                              .toList();
-                                                    });
-                                                  },
-                                                  child: Icon(
-                                                    Icons.arrow_drop_up,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    size: 48.0,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 50.0,
-                                                decoration: BoxDecoration(),
-                                                child: Container(
-                                                  width: 48.0,
-                                                  child: TextFormField(
-                                                    controller:
-                                                        _model.textController2,
-                                                    autofocus: true,
-                                                    obscureText: false,
-                                                    decoration: InputDecoration(
-                                                      hintStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyText2,
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryColor,
-                                                          width: 2.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color:
-                                                              Color(0x00000000),
-                                                          width: 2.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      errorBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color:
-                                                              Color(0x00000000),
-                                                          width: 2.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      focusedErrorBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color:
-                                                              Color(0x00000000),
-                                                          width: 2.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          fontSize: 16.0,
-                                                        ),
-                                                    textAlign: TextAlign.center,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    validator: _model
-                                                        .textController2Validator
-                                                        .asValidator(context),
-                                                    inputFormatters: [
-                                                      FilteringTextInputFormatter
-                                                          .allow(
-                                                              RegExp('[0-9]'))
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 8.0, 8.0, 8.0),
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    setState(() {
-                                                      FFAppState().logoImgPos =
-                                                          FFAppState()
-                                                              .logoImgPos
-                                                              .toList();
-                                                    });
-                                                  },
-                                                  child: Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    size: 48.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 8.0, 0.0, 8.0),
-                                      child: InkWell(
-                                        onTap: () async {
-                                          setState(() {
-                                            FFAppState().logoImgPos =
-                                                FFAppState()
-                                                    .logoImgPos
-                                                    .toList();
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.arrow_right,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 48.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 32.0, 0.0, 0.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      await actions.imageDownloader(
-                                        FFAppState().logoAddResult,
-                                      );
-                                    },
-                                    text: 'Download Image',
-                                    options: FFButtonOptions(
-                                      width: 250.0,
-                                      height: 70.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .subtitle2
-                                          .override(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                          ),
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 32.0, 0.0, 0.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      final usersUpdateData = {
-                                        'myDesigns': FieldValue.arrayUnion([
-                                          getOldEditsFirestoreData(
-                                            createOldEditsStruct(
-                                              date: getCurrentTimestamp,
-                                              image: FFAppState().bgRemResult,
-                                              clearUnsetFields: false,
-                                            ),
-                                            true,
-                                          )
-                                        ]),
-                                      };
-                                      await currentUserReference!
-                                          .update(usersUpdateData);
-
-                                      context.pushNamed('Dashboard');
-                                    },
-                                    text: 'Save and Reset',
-                                    options: FFButtonOptions(
-                                      width: 250.0,
-                                      height: 70.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .subtitle2
-                                          .override(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                          ),
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 32.0, 0.0, 0.0),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      context.pushNamed('Dashboard');
-                                    },
-                                    child: Text(
-                                      'Reset',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Montserrat',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                            fontSize: 16.0,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
     );

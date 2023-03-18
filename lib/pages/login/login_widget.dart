@@ -148,7 +148,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -160,9 +160,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                         )
                       ],
                       borderRadius: BorderRadius.circular(12.0),
-                      border: Border.all(
-                        width: 1.0,
-                      ),
                     ),
                     child: Padding(
                       padding:
@@ -171,9 +168,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                         controller: _model.emailTextController,
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'Your email address',
+                          labelText: 'Your Email Address',
                           labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context)
@@ -204,11 +200,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           filled: true,
+                          fillColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 24.0, 20.0, 24.0),
                         ),
                         style: FlutterFlowTheme.of(context).bodyText1,
-                        maxLines: null,
                         validator: _model.emailTextControllerValidator
                             .asValidator(context),
                       ),
@@ -269,6 +266,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           filled: true,
+                          fillColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 24.0, 20.0, 24.0),
                           suffixIcon: InkWell(
