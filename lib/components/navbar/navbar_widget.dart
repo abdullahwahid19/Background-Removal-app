@@ -223,7 +223,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       iconPadding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: FlutterFlowTheme.of(context).primaryBackground,
                       textStyle: FlutterFlowTheme.of(context)
                           .subtitle2
                           .override(

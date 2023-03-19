@@ -1,4 +1,6 @@
 // Automatic FlutterFlow imports
+import 'dart:async';
+
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -15,8 +17,30 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
+Future<Size> getImageSize(Uint8List imageBytes) async {
+  Completer<Size> completer = Completer();
+  Image image = Image.memory(imageBytes);
+
+  image.image.resolve(ImageConfiguration()).addListener(
+    ImageStreamListener(
+      (ImageInfo imageInfo, bool synchronousCall) {
+        completer.complete(
+          Size(
+            imageInfo.image.width.toDouble(),
+            imageInfo.image.height.toDouble(),
+          ),
+        );
+      },
+    ),
+  );
+
+  return await completer.future;
+}
+
 Future<List<String>> watermarkImg(
     dynamic img, dynamic logo, String pos, String name) async {
+  final imageSize = await getImageSize(img);
+
   var positions = {
     "Top Right": [0, 0],
     "Top Left": [-200, 0],

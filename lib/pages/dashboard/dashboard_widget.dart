@@ -18,7 +18,9 @@ class DashboardWidget extends StatefulWidget {
   _DashboardWidgetState createState() => _DashboardWidgetState();
 }
 
-class _DashboardWidgetState extends State<DashboardWidget> {
+class _DashboardWidgetState extends State<DashboardWidget>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   late DashboardModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -27,6 +29,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     _model = createModel(context, () => DashboardModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
@@ -78,12 +81,11 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                     ),
-                    child: DefaultTabController(
-                      length: 2,
-                      initialIndex: 0,
-                      child: Column(
+                    child: Scaffold(
+                      body: Column(
                         children: [
                           TabBar(
+                            controller: _tabController,
                             labelColor:
                                 FlutterFlowTheme.of(context).primaryColor,
                             labelStyle:
@@ -103,6 +105,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                           ),
                           Expanded(
                             child: TabBarView(
+                              controller: _tabController,
                               children: [
                                 KeepAliveWidgetWrapper(
                                   builder: (context) => wrapWithModel(

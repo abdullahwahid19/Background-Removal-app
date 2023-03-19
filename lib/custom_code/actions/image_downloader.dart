@@ -10,14 +10,8 @@ import 'package:flutter/material.dart';
 
 import 'package:image_downloader_web/image_downloader_web.dart';
 
-Future imageDownloader(String? url) async {
-  // download image from url and save locally
-
-  if (url != null) {
-    await WebImageDownloader.downloadImageFromWeb(
-      url,
-      name: 'Car-Cutter',
-      imageType: ImageType.png,
-    );
-  }
+Future<void> imageDownloader(imgBytes) async {
+  print(imgBytes);
+  print('downloading');
+  await WebImageDownloader.downloadImageFromUInt8List(uInt8List: imgBytes);
 }

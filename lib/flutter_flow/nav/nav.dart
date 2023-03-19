@@ -97,24 +97,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'signup',
               builder: (context, params) => SignupWidget(),
             ),
-            FFRoute(
-              name: 'BgRemove',
-              path: 'bgremove',
-              builder: (context, params) => BgRemoveWidget(
-                ogImg: params.getParam('ogImg', ParamType.String),
-                resImg: params.getParam('resImg', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'LogoAdd',
-              path: 'addlogo',
-              builder: (context, params) => LogoAddWidget(
-                ogImg: params.getParam('ogImg', ParamType.String),
-                resImg: params.getParam('resImg', ParamType.String),
-                imgbytes: params.getParam('imgbytes', ParamType.JSON),
-                logobytes: params.getParam('logobytes', ParamType.JSON),
-              ),
-            )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
       ].map((r) => r.toRoute(appStateNotifier)).toList(),

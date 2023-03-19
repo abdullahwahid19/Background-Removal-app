@@ -25,29 +25,29 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  String _bgRemResult = '';
-  String get bgRemResult => _bgRemResult;
-  set bgRemResult(String _value) {
+  Uint8List _bgRemResult = Uint8List(0);
+  Uint8List get bgRemResult => _bgRemResult;
+  set bgRemResult(Uint8List _value) {
     _bgRemResult = _value;
   }
 
-  String _logoAddResult = '';
-  String get logoAddResult => _logoAddResult;
-  set logoAddResult(String _value) {
+  Uint8List _logoAddResult = Uint8List(0);
+  Uint8List get logoAddResult => _logoAddResult;
+  set logoAddResult(Uint8List _value) {
     _logoAddResult = _value;
   }
 
-  List<int> _logoImgPos = [];
-  List<int> get logoImgPos => _logoImgPos;
-  set logoImgPos(List<int> _value) {
+  List<double> _logoImgPos = [];
+  List<double> get logoImgPos => _logoImgPos;
+  set logoImgPos(List<double> _value) {
     _logoImgPos = _value;
   }
 
-  void addToLogoImgPos(int _value) {
+  void addToLogoImgPos(double _value) {
     _logoImgPos.add(_value);
   }
 
-  void removeFromLogoImgPos(int _value) {
+  void removeFromLogoImgPos(double _value) {
     _logoImgPos.remove(_value);
   }
 
@@ -61,10 +61,22 @@ class FFAppState extends ChangeNotifier {
     _logoAdded = _value;
   }
 
-  bool _imgLogo = false;
+  bool _imgLogo = true;
   bool get imgLogo => _imgLogo;
   set imgLogo(bool _value) {
     _imgLogo = _value;
+  }
+
+  Uint8List _imgLogoBytes = Uint8List(0);
+  Uint8List get imgLogoBytes => _imgLogoBytes;
+  set imgLogoBytes(Uint8List _value) {
+    _imgLogoBytes = _value;
+  }
+
+  String _imgLogoBytesName = '';
+  String get imgLogoBytesName => _imgLogoBytesName;
+  set imgLogoBytesName(String _value) {
+    _imgLogoBytesName = _value;
   }
 }
 

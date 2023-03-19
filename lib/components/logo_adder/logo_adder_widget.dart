@@ -1,3 +1,6 @@
+import 'package:carcutter/flutter_flow/random_data_util.dart';
+
+import '../../custom_code/actions/img2firebase.dart';
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -16,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'logo_adder_model.dart';
+import 'package:screenshot/screenshot.dart';
 export 'logo_adder_model.dart';
 
 class LogoAdderWidget extends StatefulWidget {
@@ -27,6 +31,7 @@ class LogoAdderWidget extends StatefulWidget {
 
 class _LogoAdderWidgetState extends State<LogoAdderWidget> {
   late LogoAdderModel _model;
+  ScreenshotController screenshotController = ScreenshotController();
 
   @override
   void setState(VoidCallback callback) {
@@ -41,6 +46,11 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
 
     _model.textController1 ??= TextEditingController();
     _model.textController2 ??= TextEditingController(text: '50');
+    FFUploadedFile imgLogoBytes = FFUploadedFile(
+        name: FFAppState().imgLogoBytesName, bytes: FFAppState().imgLogoBytes);
+    setState(() {
+      _model.uploadedLocalFile1 = imgLogoBytes;
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -90,13 +100,17 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.network(
-                              _model.uploadedLocalFile1 != null
-                                  ? 'insert.uploaded.local.file.1.bytes'
-                                  : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                            Container(
+                              child: FFAppState().imgLogoBytes.length != 0
+                                  ? Image.memory(
+                                      FFAppState().imgLogoBytes,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Image.network(
+                                      'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                      fit: BoxFit.cover),
                               width: 150.0,
                               height: 100.0,
-                              fit: BoxFit.cover,
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -143,6 +157,8 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                       setState(() {
                                         _model.uploadedLocalFile1 =
                                             selectedUploadedFiles.first;
+                                        FFAppState().imgLogoBytes =
+                                            _model.uploadedLocalFile1.bytes!;
                                       });
                                       showUploadMessage(context, 'Success!');
                                     } else {
@@ -154,7 +170,7 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                   }
                                 },
                                 child: Text(
-                                  _model.uploadedLocalFile1 != null
+                                  FFAppState().imgLogoBytes.length != 0
                                       ? 'Edit Image'
                                       : 'Upload Image',
                                   style: FlutterFlowTheme.of(context)
@@ -209,7 +225,10 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                 ),
                                 child: FlutterFlowRadioButton(
                                   options: ['Image', 'Text'].toList(),
-                                  onChanged: (val) => setState(() {}),
+                                  onChanged: (val) => setState(() {
+                                    FFAppState().imgLogo =
+                                        !(FFAppState().imgLogo);
+                                  }),
                                   controller: _model.radioButtonController ??=
                                       FormFieldController<String>('Image'),
                                   optionHeight: 50.0,
@@ -240,24 +259,26 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Text(
-                                        'Image',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
-                                      ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             32.0, 0.0, 0.0, 0.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Image.network(
-                                              _model.uploadedLocalFile2 != null
-                                                  ? 'insert.uploaded.local.file.2.bytes'
-                                                  : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                            Container(
+                                              child: _model.uploadedLocalFile2
+                                                          .name !=
+                                                      null
+                                                  ? Image.memory(
+                                                      _model.uploadedLocalFile2
+                                                          .bytes!,
+                                                      fit: BoxFit.contain,
+                                                    )
+                                                  : Image.network(
+                                                      'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                                      fit: BoxFit.cover),
                                               width: 150.0,
                                               height: 100.0,
-                                              fit: BoxFit.cover,
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
@@ -332,7 +353,8 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                                   }
                                                 },
                                                 child: Text(
-                                                  _model.uploadedLocalFile2 !=
+                                                  _model.uploadedLocalFile2
+                                                              .name !=
                                                           null
                                                       ? 'Edit Image'
                                                       : 'Upload Image',
@@ -361,138 +383,81 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                   ),
                                 ),
                               if (_model.radioButtonValue == 'Text')
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Text',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: TextFormField(
-                                        controller: _model.textController1,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          labelText: 'Logo Text',
-                                          labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText2,
-                                          hintStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText2,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              width: 2.0,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      32.0, 32.0, 0.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: TextFormField(
+                                          controller: _model.textController1,
+                                          obscureText: false,
+                                          decoration: InputDecoration(
+                                            labelText: 'Logo Text',
+                                            labelStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText2,
+                                            hintStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText2,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                width: 2.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryColor,
-                                              width: 2.0,
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryColor,
+                                                width: 2.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 2.0,
+                                            errorBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 2.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 2.0,
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 2.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            filled: true,
+                                            fillColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primaryBackground,
+                                            contentPadding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    20.0, 24.0, 20.0, 24.0),
                                           ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryBackground,
-                                          contentPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  20.0, 24.0, 20.0, 24.0),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1,
+                                          maxLines: null,
+                                          validator: _model
+                                              .textController1Validator
+                                              .asValidator(context),
                                         ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
-                                        maxLines: null,
-                                        validator: _model
-                                            .textController1Validator
-                                            .asValidator(context),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 32.0, 0.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Position',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: FlutterFlowDropDown<String>(
-                                        controller:
-                                            _model.dropDownController ??=
-                                                FormFieldController<String>(
-                                          _model.dropDownValue ??= 'Top Left',
-                                        ),
-                                        options: [
-                                          'Top Left',
-                                          'Top Right',
-                                          'Bottom Left',
-                                          'Bottom Right'
-                                        ],
-                                        onChanged: (val) => setState(
-                                            () => _model.dropDownValue = val),
-                                        width: 200.0,
-                                        height: 50.0,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.black,
-                                            ),
-                                        hintText: 'Please select...',
-                                        fillColor:
-                                            FlutterFlowTheme.of(context).white,
-                                        elevation: 2.0,
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                        borderWidth: 2.0,
-                                        borderRadius: 8.0,
-                                        margin: EdgeInsetsDirectional.fromSTEB(
-                                            12.0, 4.0, 12.0, 4.0),
-                                        hidesUnderline: true,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                    ],
+                                  ),
+                                )
                             ],
                           ),
                         ),
@@ -508,11 +473,11 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                           16.0, 32.0, 16.0, 32.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          if (_model.radioButtonValue == 'Image') {
-                            setState(() {
-                              FFAppState().logoImgPos = [];
-                            });
-                          }
+                          setState(() {
+                            FFAppState().logoImgPos = [-1, -1];
+                            FFAppState().logoAddResult =
+                                _model.uploadedLocalFile1.bytes!;
+                          });
                         },
                         text: 'Add Logo',
                         options: FFButtonOptions(
@@ -542,8 +507,7 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
               ],
             ),
           ),
-          if (FFAppState().logoAddResult != null &&
-              FFAppState().logoAddResult != '')
+          if (FFAppState().logoAddResult.length != 0)
             Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -590,21 +554,57 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                       PageTransition(
                                         type: PageTransitionType.fade,
                                         child: FlutterFlowExpandedImageView(
-                                          image: Image.network(
-                                            FFAppState().logoAddResult !=
-                                                        null &&
-                                                    FFAppState()
-                                                            .logoAddResult !=
-                                                        ''
-                                                ? FFAppState().logoAddResult
-                                                : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                            fit: BoxFit.contain,
+                                          image: Container(
+                                            alignment: Alignment.center,
+                                            child: FFAppState()
+                                                        .logoAddResult
+                                                        .length !=
+                                                    0
+                                                ? Container(
+                                                    alignment: Alignment.center,
+                                                    child: Stack(
+                                                      children: [
+                                                        Image.memory(
+                                                            FFAppState()
+                                                                .imgLogoBytes,
+                                                            fit:
+                                                                BoxFit.contain),
+                                                        Align(
+                                                          alignment: Alignment(
+                                                              FFAppState()
+                                                                      .logoImgPos[
+                                                                  0],
+                                                              FFAppState()
+                                                                  .logoImgPos[1]),
+                                                          child: FFAppState()
+                                                                  .imgLogo
+                                                              ? Image.memory(
+                                                                  _model
+                                                                      .uploadedLocalFile2
+                                                                      .bytes!,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                  width: 100,
+                                                                  height: 100,
+                                                                )
+                                                              : Text(_model
+                                                                  .textController1
+                                                                  .text),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    width: 1100,
+                                                    height: 700,
+                                                  )
+                                                : Image.network(
+                                                    'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                                    fit: BoxFit.cover),
                                           ),
                                           allowRotation: false,
-                                          tag: FFAppState().logoAddResult !=
-                                                      null &&
-                                                  FFAppState().logoAddResult !=
-                                                      ''
+                                          tag: FFAppState()
+                                                      .logoAddResult
+                                                      .length !=
+                                                  0
                                               ? FFAppState().logoAddResult
                                               : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                           useHeroAnimation: true,
@@ -613,19 +613,56 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                     );
                                   },
                                   child: Hero(
-                                    tag: FFAppState().logoAddResult != null &&
-                                            FFAppState().logoAddResult != ''
-                                        ? FFAppState().logoAddResult
+                                    tag: FFAppState().logoAddResult.length != 0
+                                        ? 'logoAddResultFile'
                                         : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                     transitionOnUserGestures: true,
-                                    child: Image.network(
-                                      FFAppState().logoAddResult != null &&
-                                              FFAppState().logoAddResult != ''
-                                          ? FFAppState().logoAddResult
-                                          : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                      width: 1100.0,
-                                      height: 700.0,
-                                      fit: BoxFit.contain,
+                                    child: Container(
+                                      child: FFAppState()
+                                                  .logoAddResult
+                                                  .length !=
+                                              0
+                                          ? Screenshot(
+                                              controller: screenshotController,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                child: Stack(
+                                                  children: [
+                                                    Image.memory(
+                                                        FFAppState()
+                                                            .imgLogoBytes,
+                                                        fit: BoxFit.contain),
+                                                    Align(
+                                                      alignment: Alignment(
+                                                          FFAppState()
+                                                              .logoImgPos[0],
+                                                          FFAppState()
+                                                              .logoImgPos[1]),
+                                                      child: FFAppState()
+                                                              .imgLogo
+                                                          ? Image.memory(
+                                                              _model
+                                                                  .uploadedLocalFile2
+                                                                  .bytes!,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                              width: 100,
+                                                              height: 100,
+                                                            )
+                                                          : Text(_model
+                                                              .textController1
+                                                              .text),
+                                                    ),
+                                                  ],
+                                                ),
+                                                width: 1100,
+                                                height: 700,
+                                              ))
+                                          : Image.network(
+                                              'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                              fit: BoxFit.cover),
+                                      width: 1100,
+                                      height: 700,
                                     ),
                                   ),
                                 ),
@@ -663,18 +700,24 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                     PageTransition(
                                       type: PageTransitionType.fade,
                                       child: FlutterFlowExpandedImageView(
-                                        image: Image.network(
-                                          FFAppState().logoAddResult != null &&
-                                                  FFAppState().logoAddResult !=
-                                                      ''
-                                              ? FFAppState().logoAddResult
-                                              : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                          fit: BoxFit.contain,
+                                        image: Container(
+                                          child: FFAppState()
+                                                      .logoAddResult
+                                                      .length !=
+                                                  0
+                                              ? Image.memory(
+                                                  FFAppState().logoAddResult,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.network(
+                                                  'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                                  fit: BoxFit.cover),
                                         ),
                                         allowRotation: false,
-                                        tag: FFAppState().logoAddResult !=
-                                                    null &&
-                                                FFAppState().logoAddResult != ''
+                                        tag: FFAppState()
+                                                    .logoAddResult
+                                                    .length !=
+                                                0
                                             ? FFAppState().logoAddResult
                                             : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                         useHeroAnimation: true,
@@ -683,29 +726,24 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                   );
                                 },
                                 child: Hero(
-                                  tag: FFAppState().logoAddResult != null &&
-                                          FFAppState().logoAddResult != ''
+                                  tag: FFAppState().logoAddResult.length != 0
                                       ? FFAppState().logoAddResult
                                       : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                   transitionOnUserGestures: true,
-                                  child: Image.network(
-                                    FFAppState().logoAddResult != null &&
-                                            FFAppState().logoAddResult != ''
-                                        ? FFAppState().logoAddResult
-                                        : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                    width: 300.0,
-                                    height: 200.0,
-                                    fit: BoxFit.contain,
+                                  child: Container(
+                                    child: FFAppState().logoAddResult.length !=
+                                            0
+                                        ? Image.memory(
+                                            FFAppState().logoAddResult,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                            fit: BoxFit.cover),
+                                    height: 200,
+                                    width: 300,
                                   ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 8.0, 0.0, 0.0),
-                              child: Text(
-                                'Image SIze: XX x YY',
-                                style: FlutterFlowTheme.of(context).bodyText1,
                               ),
                             ),
                             Padding(
@@ -735,10 +773,13 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                               child: InkWell(
                                                 onTap: () async {
                                                   setState(() {
-                                                    FFAppState().logoImgPos =
-                                                        FFAppState()
-                                                            .logoImgPos
-                                                            .toList();
+                                                    FFAppState().logoImgPos[
+                                                        0] = FFAppState()
+                                                            .logoImgPos[0] -
+                                                        (int.parse(_model
+                                                                .textController2
+                                                                .text) /
+                                                            1000);
                                                   });
                                                 },
                                                 child: Icon(
@@ -760,11 +801,13 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                                   child: InkWell(
                                                     onTap: () async {
                                                       setState(() {
-                                                        FFAppState()
-                                                                .logoImgPos =
-                                                            FFAppState()
-                                                                .logoImgPos
-                                                                .toList();
+                                                        FFAppState().logoImgPos[
+                                                            1] = FFAppState()
+                                                                .logoImgPos[1] -
+                                                            (int.parse(_model
+                                                                    .textController2
+                                                                    .text) /
+                                                                1000);
                                                       });
                                                     },
                                                     child: Icon(
@@ -878,11 +921,13 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                                   child: InkWell(
                                                     onTap: () async {
                                                       setState(() {
-                                                        FFAppState()
-                                                                .logoImgPos =
-                                                            FFAppState()
-                                                                .logoImgPos
-                                                                .toList();
+                                                        FFAppState().logoImgPos[
+                                                            1] = FFAppState()
+                                                                .logoImgPos[1] +
+                                                            (int.parse(_model
+                                                                    .textController2
+                                                                    .text) /
+                                                                1000);
                                                       });
                                                     },
                                                     child: Icon(
@@ -906,10 +951,12 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                         child: InkWell(
                                           onTap: () async {
                                             setState(() {
-                                              FFAppState().logoImgPos =
-                                                  FFAppState()
-                                                      .logoImgPos
-                                                      .toList();
+                                              FFAppState().logoImgPos[0] =
+                                                  FFAppState().logoImgPos[0] +
+                                                      (int.parse(_model
+                                                              .textController2
+                                                              .text) /
+                                                          1000);
                                             });
                                           },
                                           child: Icon(
@@ -927,9 +974,12 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                         0.0, 32.0, 0.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        await actions.imageDownloader(
-                                          FFAppState().logoAddResult,
-                                        );
+                                        Uint8List? logoAddedImg =
+                                            await screenshotController
+                                                .capture();
+                                        print('screenshot captured');
+                                        await actions
+                                            .imageDownloader(logoAddedImg);
                                       },
                                       text: 'Download Image',
                                       options: FFButtonOptions(
@@ -962,12 +1012,16 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                         0.0, 32.0, 0.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
+                                        final imgStr = await img2firebase(
+                                            FFAppState().bgRemResult,
+                                            randomString(
+                                                10, 10, true, true, true));
                                         final usersUpdateData = {
                                           'myDesigns': FieldValue.arrayUnion([
                                             getOldEditsFirestoreData(
                                               createOldEditsStruct(
                                                 date: getCurrentTimestamp,
-                                                image: FFAppState().bgRemResult,
+                                                image: imgStr,
                                                 clearUnsetFields: false,
                                               ),
                                               true,
@@ -976,7 +1030,12 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                         };
                                         await currentUserReference!
                                             .update(usersUpdateData);
-
+                                        setState(() {
+                                          FFAppState().bgRemResult =
+                                              Uint8List(0);
+                                          FFAppState().logoAddResult =
+                                              Uint8List(0);
+                                        });
                                         context.pushNamed('Dashboard');
                                       },
                                       text: 'Save and Reset',
@@ -1010,6 +1069,12 @@ class _LogoAdderWidgetState extends State<LogoAdderWidget> {
                                         0.0, 32.0, 0.0, 0.0),
                                     child: InkWell(
                                       onTap: () async {
+                                        setState(() {
+                                          FFAppState().bgRemResult =
+                                              Uint8List(0);
+                                          FFAppState().logoAddResult =
+                                              Uint8List(0);
+                                        });
                                         context.pushNamed('Dashboard');
                                       },
                                       child: Text(

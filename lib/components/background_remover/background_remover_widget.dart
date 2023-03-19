@@ -1,3 +1,4 @@
+import '../../custom_code/actions/img2firebase.dart';
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -11,13 +12,11 @@ import '/flutter_flow/upload_media.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_colorpicker/flutterflow_colorpicker.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'background_remover_model.dart';
+import '/pages/dashboard/dashboard_widget.dart';
 export 'background_remover_model.dart';
 
 class BackgroundRemoverWidget extends StatefulWidget {
@@ -87,13 +86,17 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.network(
-                          _model.uploadedLocalFile1 != null
-                              ? 'insert.uploaded.local.file.1.bytes'
-                              : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                        Container(
+                          child: _model.uploadedLocalFile1.name != null
+                              ? Image.memory(
+                                  _model.uploadedLocalFile1.bytes!,
+                                  fit: BoxFit.contain,
+                                )
+                              : Image.network(
+                                  'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                  fit: BoxFit.cover),
                           width: 150.0,
                           height: 100.0,
-                          fit: BoxFit.cover,
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -136,7 +139,7 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                               }
                             },
                             child: Text(
-                              _model.uploadedLocalFile1 != null
+                              _model.uploadedLocalFile1.name != null
                                   ? 'Edit Image'
                                   : 'Upload Image',
                               style: FlutterFlowTheme.of(context)
@@ -292,13 +295,17 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Image.network(
-                                _model.uploadedLocalFile2 != null
-                                    ? 'insert.uploaded.local.file.2.bytes'
-                                    : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                              Container(
+                                child: _model.uploadedLocalFile2.name != null
+                                    ? Image.memory(
+                                        _model.uploadedLocalFile2.bytes!,
+                                        fit: BoxFit.contain,
+                                      )
+                                    : Image.network(
+                                        'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                        fit: BoxFit.cover),
                                 width: 150.0,
                                 height: 100.0,
-                                fit: BoxFit.cover,
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -346,7 +353,7 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                     }
                                   },
                                   child: Text(
-                                    _model.uploadedLocalFile2 != null
+                                    _model.uploadedLocalFile2.name != null
                                         ? 'Edit Image'
                                         : 'Upload Image',
                                     style: FlutterFlowTheme.of(context)
@@ -377,58 +384,45 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                         onPressed: () async {
                           if (_model.radioButtonValue1 == 'None') {
                             _model.apiImage = await actions.api2Firebase(
-                              'insert.uploaded.local.file.1.bytes',
-                              'no string',
-                              'no string',
-                              random_data.randomString(
-                                10,
-                                10,
-                                true,
-                                true,
-                                true,
-                              ),
+                              _model.uploadedLocalFile1.bytes!,
+                              '',
+                              null,
                             );
                             setState(() {
                               FFAppState().bgRemResult = _model.apiImage!;
+                              FFAppState().logoAdded = true;
+                              FFAppState().imgLogoBytes =
+                                  FFAppState().bgRemResult;
                             });
+                            setState(() {});
                           } else {
                             if (_model.radioButtonValue1 == 'Color') {
                               _model.apiImageColor = await actions.api2Firebase(
-                                'insert.uploaded.local.file.1.bytes',
+                                _model.uploadedLocalFile1.bytes!,
                                 functions.color2String(_model.colorPicked!),
-                                'no string',
-                                random_data.randomString(
-                                  10,
-                                  10,
-                                  true,
-                                  true,
-                                  true,
-                                ),
+                                null,
                               );
                               setState(() {
                                 FFAppState().bgRemResult =
                                     _model.apiImageColor!;
+                                FFAppState().logoAdded = true;
+                                FFAppState().imgLogoBytes =
+                                    FFAppState().bgRemResult;
                               });
                             } else {
                               _model.apiImageBg = await actions.api2Firebase(
-                                'insert.uploaded.local.file.1.bytes',
-                                'no string',
-                                'inset.bg.bytes',
-                                random_data.randomString(
-                                  10,
-                                  10,
-                                  true,
-                                  true,
-                                  true,
-                                ),
+                                _model.uploadedLocalFile1.bytes!,
+                                '',
+                                _model.uploadedLocalFile2.bytes!,
                               );
                               setState(() {
                                 FFAppState().bgRemResult = _model.apiImageBg!;
+                                FFAppState().logoAdded = true;
+                                FFAppState().imgLogoBytes =
+                                    FFAppState().bgRemResult;
                               });
                             }
                           }
-
-                          setState(() {});
                         },
                         text: 'Remove Background',
                         options: FFButtonOptions(
@@ -458,8 +452,7 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
               ],
             ),
           ),
-          if (FFAppState().bgRemResult != null &&
-              FFAppState().bgRemResult != '')
+          if (FFAppState().bgRemResult.length != 0)
             Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -506,18 +499,22 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                       PageTransition(
                                         type: PageTransitionType.fade,
                                         child: FlutterFlowExpandedImageView(
-                                          image: Image.network(
-                                            FFAppState().bgRemResult != null &&
-                                                    FFAppState().bgRemResult !=
-                                                        ''
-                                                ? FFAppState().bgRemResult
-                                                : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                            fit: BoxFit.contain,
+                                          image: Container(
+                                            child: FFAppState()
+                                                        .bgRemResult
+                                                        .length !=
+                                                    0
+                                                ? Image.memory(
+                                                    FFAppState().bgRemResult,
+                                                    fit: BoxFit.contain,
+                                                  )
+                                                : Image.network(
+                                                    'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                                    fit: BoxFit.cover),
                                           ),
                                           allowRotation: false,
                                           tag: FFAppState().bgRemResult !=
-                                                      null &&
-                                                  FFAppState().bgRemResult != ''
+                                                  Uint8List(0)
                                               ? FFAppState().bgRemResult
                                               : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                           useHeroAnimation: true,
@@ -526,568 +523,25 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                     );
                                   },
                                   child: Hero(
-                                    tag: FFAppState().bgRemResult != null &&
-                                            FFAppState().bgRemResult != ''
+                                    tag: FFAppState().bgRemResult.length != 0
                                         ? FFAppState().bgRemResult
                                         : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                     transitionOnUserGestures: true,
-                                    child: Image.network(
-                                      FFAppState().bgRemResult != null &&
-                                              FFAppState().bgRemResult != ''
-                                          ? FFAppState().bgRemResult
-                                          : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                      width: 1100.0,
-                                      height: 700.0,
-                                      fit: BoxFit.contain,
+                                    child: Container(
+                                      child: FFAppState().bgRemResult.length !=
+                                              0
+                                          ? Image.memory(
+                                              FFAppState().bgRemResult,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.network(
+                                              'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                              fit: BoxFit.contain),
+                                      width: 1100,
+                                      height: 700,
                                     ),
                                   ),
                                 ),
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 16.0, 16.0, 16.0),
-                                  child: Text(
-                                    'ADD LOGO TO RESULT',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          32.0, 32.0, 32.0, 32.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 32.0, 0.0),
-                                            child: Text(
-                                              'Logo',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyText1
-                                                  .override(
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 30.0,
-                                                    fontWeight: FontWeight.w900,
-                                                  ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: 267.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                  ),
-                                                  child: FlutterFlowRadioButton(
-                                                    options: ['Image', 'Text']
-                                                        .toList(),
-                                                    onChanged: (val) =>
-                                                        setState(() {}),
-                                                    controller: _model
-                                                            .radioButtonController2 ??=
-                                                        FormFieldController<
-                                                            String>('Image'),
-                                                    optionHeight: 50.0,
-                                                    textStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyText1
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Montserrat',
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                              fontSize: 20.0,
-                                                            ),
-                                                    buttonPosition:
-                                                        RadioButtonPosition
-                                                            .left,
-                                                    direction: Axis.horizontal,
-                                                    radioButtonColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primaryColor,
-                                                    inactiveRadioButtonColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primaryText,
-                                                    toggleable: false,
-                                                    horizontalAlignment:
-                                                        WrapAlignment
-                                                            .spaceAround,
-                                                    verticalAlignment:
-                                                        WrapCrossAlignment
-                                                            .start,
-                                                  ),
-                                                ),
-                                                if (_model.radioButtonValue2 ==
-                                                    'Image')
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                32.0,
-                                                                32.0,
-                                                                32.0,
-                                                                32.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Text(
-                                                          'Image',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyText1,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      32.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Image.network(
-                                                                _model.uploadedLocalFile3 !=
-                                                                        null
-                                                                    ? 'insert.uploaded.local.file.3.bytes'
-                                                                    : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                                                width: 150.0,
-                                                                height: 100.0,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            16.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: InkWell(
-                                                                  onTap:
-                                                                      () async {
-                                                                    final selectedMedia =
-                                                                        await selectMediaWithSourceBottomSheet(
-                                                                      context:
-                                                                          context,
-                                                                      allowPhoto:
-                                                                          true,
-                                                                    );
-                                                                    if (selectedMedia !=
-                                                                            null &&
-                                                                        selectedMedia.every((m) => validateFileFormat(
-                                                                            m.storagePath,
-                                                                            context))) {
-                                                                      setState(() =>
-                                                                          _model.isMediaUploading3 =
-                                                                              true);
-                                                                      var selectedUploadedFiles =
-                                                                          <FFUploadedFile>[];
-
-                                                                      try {
-                                                                        showUploadMessage(
-                                                                          context,
-                                                                          'Uploading file...',
-                                                                          showLoading:
-                                                                              true,
-                                                                        );
-                                                                        selectedUploadedFiles = selectedMedia
-                                                                            .map((m) => FFUploadedFile(
-                                                                                  name: m.storagePath.split('/').last,
-                                                                                  bytes: m.bytes,
-                                                                                  height: m.dimensions?.height,
-                                                                                  width: m.dimensions?.width,
-                                                                                ))
-                                                                            .toList();
-                                                                      } finally {
-                                                                        ScaffoldMessenger.of(context)
-                                                                            .hideCurrentSnackBar();
-                                                                        _model.isMediaUploading3 =
-                                                                            false;
-                                                                      }
-                                                                      if (selectedUploadedFiles
-                                                                              .length ==
-                                                                          selectedMedia
-                                                                              .length) {
-                                                                        setState(
-                                                                            () {
-                                                                          _model.uploadedLocalFile3 =
-                                                                              selectedUploadedFiles.first;
-                                                                        });
-                                                                        showUploadMessage(
-                                                                            context,
-                                                                            'Success!');
-                                                                      } else {
-                                                                        setState(
-                                                                            () {});
-                                                                        showUploadMessage(
-                                                                            context,
-                                                                            'Failed to upload media');
-                                                                        return;
-                                                                      }
-                                                                    }
-                                                                  },
-                                                                  child: Text(
-                                                                    _model.uploadedLocalFile3 !=
-                                                                            null
-                                                                        ? 'Edit Image'
-                                                                        : 'Upload Image',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyText1
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Montserrat',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryColor,
-                                                                          fontSize:
-                                                                              16.0,
-                                                                          decoration:
-                                                                              TextDecoration.underline,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                if (_model.radioButtonValue2 ==
-                                                    'Text')
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                32.0,
-                                                                32.0,
-                                                                32.0,
-                                                                32.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Text(
-                                                            'Text',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyText1,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 5,
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        32.0,
-                                                                        32.0,
-                                                                        32.0,
-                                                                        32.0),
-                                                            child:
-                                                                TextFormField(
-                                                              controller: _model
-                                                                  .textController,
-                                                              obscureText:
-                                                                  false,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                labelText:
-                                                                    'Logo Text',
-                                                                labelStyle:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyText2
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Montserrat',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
-                                                                        ),
-                                                                hintStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText2
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Montserrat',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                    ),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                ),
-                                                                focusedBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                ),
-                                                                errorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0x00000000),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                ),
-                                                                focusedErrorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0x00000000),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                ),
-                                                                filled: true,
-                                                                fillColor:
-                                                                    Colors
-                                                                        .white,
-                                                                contentPadding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            20.0,
-                                                                            24.0,
-                                                                            20.0,
-                                                                            24.0),
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyText1,
-                                                              maxLines: null,
-                                                              validator: _model
-                                                                  .textControllerValidator
-                                                                  .asValidator(
-                                                                      context),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(32.0, 32.0,
-                                                          32.0, 32.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          'Position',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyText1,
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        flex: 5,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      32.0,
-                                                                      32.0,
-                                                                      32.0,
-                                                                      32.0),
-                                                          child:
-                                                              FlutterFlowDropDown<
-                                                                  String>(
-                                                            controller: _model
-                                                                    .dropDownController ??=
-                                                                FormFieldController<
-                                                                    String>(
-                                                              _model.dropDownValue ??=
-                                                                  'Top Left',
-                                                            ),
-                                                            options: [
-                                                              'Top Left',
-                                                              'Top Right',
-                                                              'Bottom Left',
-                                                              'Bottom Right'
-                                                            ],
-                                                            onChanged: (val) =>
-                                                                setState(() =>
-                                                                    _model.dropDownValue =
-                                                                        val),
-                                                            width: 200.0,
-                                                            height: 50.0,
-                                                            textStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText1
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Montserrat',
-                                                                      color: Colors
-                                                                          .black,
-                                                                    ),
-                                                            hintText:
-                                                                'Please select...',
-                                                            fillColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .white,
-                                                            elevation: 2.0,
-                                                            borderColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryColor,
-                                                            borderWidth: 2.0,
-                                                            borderRadius: 8.0,
-                                                            margin:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        12.0,
-                                                                        4.0,
-                                                                        12.0,
-                                                                        4.0),
-                                                            hidesUnderline:
-                                                                true,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        16.0, 32.0, 16.0, 32.0),
-                                                child: FFButtonWidget(
-                                                  onPressed: () async {
-                                                    if (_model
-                                                            .radioButtonValue2 ==
-                                                        'Image') {
-                                                      setState(() {
-                                                        FFAppState().imgLogo =
-                                                            true;
-                                                      });
-                                                    } else {
-                                                      setState(() {
-                                                        FFAppState().imgLogo =
-                                                            false;
-                                                      });
-                                                    }
-
-                                                    setState(() {
-                                                      FFAppState().logoImgPos =
-                                                          [];
-                                                      FFAppState().logoAdded =
-                                                          true;
-                                                    });
-                                                  },
-                                                  text: 'Add Logo',
-                                                  options: FFButtonOptions(
-                                                    width: 300.0,
-                                                    height: 80.0,
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    iconPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryColor,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .subtitle2
-                                                        .override(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          color: Colors.white,
-                                                          fontSize: 24.0,
-                                                        ),
-                                                    borderSide: BorderSide(
-                                                      color: Colors.transparent,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),
@@ -1118,15 +572,23 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                     PageTransition(
                                       type: PageTransitionType.fade,
                                       child: FlutterFlowExpandedImageView(
-                                        image: Image.network(
-                                          _model.uploadedLocalFile1 != null
-                                              ? 'insert.uploaded.local.file.1.bytes'
-                                              : 'https://archive.org/download/no-photo-available/no-photo-available.png',
-                                          fit: BoxFit.contain,
+                                        image: Container(
+                                          child: _model.uploadedLocalFile1
+                                                      .name !=
+                                                  null
+                                              ? Image.memory(
+                                                  _model.uploadedLocalFile1
+                                                      .bytes!,
+                                                  fit: BoxFit.contain,
+                                                )
+                                              : Image.network(
+                                                  'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                                  fit: BoxFit.cover),
                                         ),
                                         allowRotation: false,
-                                        tag: _model.uploadedLocalFile1 != null
-                                            ? 'insert.uploaded.local.file.1.bytes'
+                                        tag: _model.uploadedLocalFile1.name !=
+                                                null
+                                            ? 'localFile1'
                                             : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                         useHeroAnimation: true,
                                       ),
@@ -1134,17 +596,22 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                   );
                                 },
                                 child: Hero(
-                                  tag: _model.uploadedLocalFile1 != null
-                                      ? 'insert.uploaded.local.file.1.bytes'
+                                  tag: _model.uploadedLocalFile1.name != null
+                                      ? 'localFile1'
                                       : 'https://archive.org/download/no-photo-available/no-photo-available.png',
                                   transitionOnUserGestures: true,
-                                  child: Image.network(
-                                    _model.uploadedLocalFile1 != null
-                                        ? 'insert.uploaded.local.file.1.bytes'
-                                        : 'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                  child: Container(
+                                    child: _model.uploadedLocalFile1.name !=
+                                            null
+                                        ? Image.memory(
+                                            _model.uploadedLocalFile1.bytes!,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            'https://archive.org/download/no-photo-available/no-photo-available.png',
+                                            fit: BoxFit.cover),
                                     width: 250.0,
                                     height: 175.0,
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -1158,6 +625,15 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 128.0, 0.0, 0.0),
+                                    child: Text('Swipe to Add Logo',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Theme.of(context).primaryColor,
+                                        )),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 32.0, 0.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
                                         await actions.imageDownloader(
@@ -1195,12 +671,16 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                         0.0, 32.0, 0.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
+                                        final imgStr = await img2firebase(
+                                            FFAppState().bgRemResult,
+                                            random_data.randomString(
+                                                10, 10, true, true, true));
                                         final usersUpdateData = {
                                           'myDesigns': FieldValue.arrayUnion([
                                             getOldEditsFirestoreData(
                                               createOldEditsStruct(
                                                 date: getCurrentTimestamp,
-                                                image: FFAppState().bgRemResult,
+                                                image: imgStr,
                                                 clearUnsetFields: false,
                                               ),
                                               true,
@@ -1209,7 +689,14 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                         };
                                         await currentUserReference!
                                             .update(usersUpdateData);
-
+                                        setState(() {
+                                          FFAppState().bgRemResult =
+                                              Uint8List(0);
+                                        });
+                                        setState(() {
+                                          FFAppState().logoAddResult =
+                                              Uint8List(0);
+                                        });
                                         context.pushNamed('Dashboard');
                                       },
                                       text: 'Save and Reset',
@@ -1243,6 +730,14 @@ class _BackgroundRemoverWidgetState extends State<BackgroundRemoverWidget> {
                                         0.0, 32.0, 0.0, 0.0),
                                     child: InkWell(
                                       onTap: () async {
+                                        setState(() {
+                                          FFAppState().bgRemResult =
+                                              Uint8List(0);
+                                        });
+                                        setState(() {
+                                          FFAppState().logoAddResult =
+                                              Uint8List(0);
+                                        });
                                         context.pushNamed('Dashboard');
                                       },
                                       child: Text(

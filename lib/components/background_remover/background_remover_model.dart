@@ -33,11 +33,11 @@ class BackgroundRemoverModel extends FlutterFlowModel {
       FFUploadedFile(bytes: Uint8List.fromList([]));
 
   // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
-  String? apiImage;
+  Uint8List? apiImage;
   // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
-  String? apiImageColor;
+  Uint8List? apiImageColor;
   // Stores action output result for [Custom Action - api2Firebase] action in Button widget.
-  String? apiImageBg;
+  Uint8List? apiImageBg;
   // State field(s) for RadioButton widget.
   FormFieldController<String>? radioButtonController2;
   bool isMediaUploading3 = false;
